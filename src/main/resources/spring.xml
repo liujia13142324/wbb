@@ -34,5 +34,24 @@
 	<!-- 配制mybatis与spring整合的SqlSessionFactory的对象 -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 	    <property name="dataSource" ref="dataSource"/>
+	    <property name="typeAliasesPackage" value="com.l.wbb.bean"/>
+		<property name="mapperLocations" value="classpath:mapper/*Mapper.xml"/>
 	</bean>
+	
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.l.wbb.mapper"/>
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+	</bean>
+	
+	<!-- 事物处理切面 
+		数据源属性与业务操作的数据源属性保持一致
+	-->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean> 
+		
+	<!-- 以注解的方式把切入点与连接点关联起来 -->
+	 <tx:annotation-driven transaction-manager="transactionManager" />
+	 <aop:aspectj-autoproxy/>
+	
 </beans>
