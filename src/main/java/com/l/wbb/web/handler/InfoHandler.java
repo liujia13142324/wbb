@@ -25,10 +25,17 @@ public class InfoHandler {
 	private InfoService infoService;
 	
 	@RequestMapping("/infoCenter")
-	public String enterInfoCenter(HttpServletRequest request){
+	public String enterInfoCenter(HttpServletRequest request,Integer themeId){
 		
 		List<Theme> themes = infoService.getAllTheme();
-		List<Info> infos = infoService.getAllInfo();
+		List<Info> infos = null;
+		if(themeId == null){
+			// 大厅就是获得所有的分类，不需要在数据新建
+			infos = infoService.getAllInfo();
+		}else{
+			infos = infoService.getInfoByTheme(themeId);
+		}
+		
 		if(themes!= null && infos!=null){
 			request.setAttribute("themes", themes);
 			request.setAttribute("infos", infos);
@@ -36,7 +43,7 @@ public class InfoHandler {
 		}
 		
 		
-		return WBBConst.PROJECT_NAME+"/fail";
+		return "/fail";
 	}
 	
 	@RequestMapping("/userHistory")

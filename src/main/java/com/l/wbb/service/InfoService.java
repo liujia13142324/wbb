@@ -25,5 +25,7 @@ public interface InfoService {
 
 	boolean setLikeInfo(LikeInfo likeInfo,int setStatus);
 
+	List<Info> getInfoByTheme(Integer themeId);
+
 
 }

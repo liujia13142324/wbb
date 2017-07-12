@@ -34,6 +34,12 @@ public class InfoServiceImpl implements InfoService {
 		//  2.捕获异常，不做任何处理
 		return null;
 	}
+	
+	@Override
+	public List<Info> getInfoByTheme(Integer themeId) {
+		// TODO 要求同上，多加一个查找当前主题的info
+		return null;
+	}
 
 	@Override
 	public List<Info> getUserHistory(Integer openid) {
