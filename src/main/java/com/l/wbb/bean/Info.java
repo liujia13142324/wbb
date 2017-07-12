@@ -7,7 +7,6 @@ public class Info {
 	private String openId ;
 	private Integer themeId;
 	private Integer infoId 	 ;
-	private String  infoTitle ;
 	private String  infoContent ;
 	private Date publishTime ;
 	private Integer commentCount;
@@ -16,18 +15,16 @@ public class Info {
 	private List<LikeInfo> likeinfo;
 	@Override
 	public String toString() {
-		return "Info [openId=" + openId + ", themeId=" + themeId + ", infoId=" + infoId + ", infoTitle=" + infoTitle
-				+ ", infoContent=" + infoContent + ", publishTime=" + publishTime + ", imgs=" + imgs + ", likeinfo="
-				+ likeinfo +" commentCount="+commentCount+ "]";
+		return "Info [openId=" + openId + ", themeId=" + themeId + ", infoId=" + infoId +  ", infoContent=" + infoContent + ", publishTime=" + publishTime + ", imgs=" + imgs + ", likeinfo="
+				+ likeinfo +", commentCount="+commentCount+ "]";
 	}
 
-	public Info(String openId, Integer themeId, Integer infoId, String infoTitle, String infoContent, Date publishTime,
+	public Info(String openId, Integer themeId, Integer infoId,  String infoContent, Date publishTime,
 			Integer commentCount, List<Image> imgs, List<LikeInfo> likeinfo) {
 		super();
 		this.openId = openId;
 		this.themeId = themeId;
 		this.infoId = infoId;
-		this.infoTitle = infoTitle;
 		this.infoContent = infoContent;
 		this.publishTime = publishTime;
 		this.commentCount = commentCount;
@@ -60,12 +57,6 @@ public class Info {
 	}
 	public void setInfoId(Integer infoId) {
 		this.infoId = infoId;
-	}
-	public String getInfoTitle() {
-		return infoTitle;
-	}
-	public void setInfoTitle(String infoTitle) {
-		this.infoTitle = infoTitle;
 	}
 	public String getInfoContent() {
 		return infoContent;

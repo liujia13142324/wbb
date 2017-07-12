@@ -10,7 +10,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <base href="/wbb/">
-<title>Theme Template for Bootstrap</title>
+<title>发布广场</title>
 <!-- Bootstrap core CSS -->
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <!-- Bootstrap theme -->
@@ -18,27 +18,9 @@
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
 <link href="css/lib.css" rel="stylesheet">
-
-<title>Insert title here</title>
+<link href="css/infoCenter.css" rel="stylesheet">
+<title>发布广场</title>
 </head>
-<style>
-.panel-body {
-	height:130px;
-}
-.x-unhappy-value{
-    float: right;
-    margin-right:30px;
-}
-.x-info{
-	margin-bottom:10px;
-}
-.link:first-child{
-	margin-left:30px;
-}
-.link{
-	margin-right:10px;
-}
-</style>
 <body>
 		<div class="panel panel-default ">
 			<div class="panel-heading">
