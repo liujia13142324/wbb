@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper  namespace="com.l.wbb.mapper.UserMapper">
+	<!-- 编写sql时 切勿在查询的时候以 * 代替所有列；插入时，也要写上插入字段！-->
+	
+</mapper>
