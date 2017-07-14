@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.l.wbb.bean.Comment;
 import com.l.wbb.bean.Info;
 import com.l.wbb.bean.LikeInfo;
+import com.l.wbb.bean.PaginationBean;
 import com.l.wbb.bean.Theme;
 import com.l.wbb.context.WBBConst;
 import com.l.wbb.service.InfoService;
@@ -31,7 +32,7 @@ public class InfoHandler {
 		List<Info> infos = null;
 		if(themeId == null){
 			// 大厅就是获得所有的分类，不需要在数据新建
-			infos = infoService.getAllInfo();
+			infos = infoService.getFirstPageInfo();
 		}else{
 			infos = infoService.getInfoByTheme(themeId);
 		}
@@ -95,5 +96,22 @@ public class InfoHandler {
 		
 		return "fail";
 	}
+	
+	@RequestMapping("/getInfoByScroll")
+	@ResponseBody
+	public List<Info> getInfoByScroll(Integer start , Integer end){
+		 // start 起码从11开始 end起码从20开始
+		return  infoService.getInfoByRange(start, end);
+		
+	}
+	
+	@RequestMapping("/getCommentByScroll")
+	@ResponseBody
+	public List<Comment> getCommentByScroll(Integer infoId , Integer start , Integer end){
+		// start 起码从11开始 end起码从20开始
+		return  infoService.getCommentByRange(infoId,start, end);
+		
+	}
+	
 	
 }

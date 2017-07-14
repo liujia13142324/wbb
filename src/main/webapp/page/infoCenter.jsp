@@ -19,161 +19,213 @@
 <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
 <link href="css/lib.css" rel="stylesheet">
 <link href="css/infoCenter.css" rel="stylesheet">
+<link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="easyui/css/easyui.css">
 <title>发布广场</title>
 </head>
-<body>
-		<div class="panel panel-default ">
-			<div class="panel-heading">
-				<h3 class="panel-title">什么时候放假啊</h3>
-			</div>
-			<div class="panel-body">哈哈</div>
-			
-			<div class="x-info">
-				<a href="#" class="link">
-					<i class="icon ion-eye"></i> 
-					<span>2</span>
-				</a> 
-				
-				<a href="#" class="link">
-					<i class="icon ion-chatbox-working"></i> 
-					<span>1</span>
-				</a> 
-				<a href="#" class="x-unhappy-value">
-					<span>2.8x能量值: 413</span>
-				</a> 
-				<div class="_clear"></div>
-			</div>
-		
-		</div>
-		
-		<div class="panel panel-primary">
-			<div class="panel-heading">
-				<h3 class="panel-title">耶耶耶耶耶</h3>
-			</div>
-			<div class="panel-body">陆小丹是我女儿</div>
-				
-			<div class="x-info">
-				<a href="#" class="link">
-					<i class="icon ion-eye"></i> 
-					<span>2</span>
-				</a> 
-				
-				<a href="#" class="link">
-					<i class="icon ion-chatbox-working"></i> 
-					<span>1</span>
-				</a> 
-				<a href="#" class="x-unhappy-value">
-					<span>2.8x能量值: 413</span>
-				</a> 
-				<div class="_clear"></div>
-			</div>
-		
-		</div>
-	
-		<div class="panel panel-success">
-			<div class="panel-heading">
-				<h3 class="panel-title">你们好美~</h3>
-			</div>
-			<div class="panel-body">才怪 ...</div>
-				
-			<div class="x-info">
-				<a href="#" class="link">
-					<i class="icon ion-eye"></i> 
-					<span>2</span>
-				</a> 
-				
-				<a href="#" class="link">
-					<i class="icon ion-chatbox-working"></i> 
-					<span>1</span>
-				</a> 
-				<a href="#" class="x-unhappy-value">
-					<span>2.8x能量值: 413</span>
-				</a> 
-				<div class="_clear"></div>
-			</div>
-		
-		</div>
-		
-		<div class="panel panel-info">
-			<div class="panel-heading">
-				<h3 class="panel-title">Panel title</h3>
-			</div>
-			<div class="panel-body">Panel content</div>
-				
-			<div class="x-info">
-				<a href="#" class="link">
-					<i class="icon ion-eye"></i> 
-					<span>2</span>
-				</a> 
-				
-				<a href="#" class="link">
-					<i class="icon ion-chatbox-working"></i> 
-					<span>1</span>
-				</a> 
-				<a href="#" class="x-unhappy-value">
-					<span>2.8x能量值: 413</span>
-				</a> 
-				<div class="_clear"></div>
-			</div>
-		
-		</div>
-	
-		<div class="panel panel-warning">
-			<div class="panel-heading">
-				<h3 class="panel-title">Panel title</h3>
-			</div>
-			<div class="panel-body">Panel content</div>
-				
-			<div class="x-info">
-				<a href="#" class="link">
-					<i class="icon ion-eye"></i> 
-					<span>2</span>
-				</a> 
-				
-				<a href="#" class="link">
-					<i class="icon ion-chatbox-working"></i> 
-					<span>1</span>
-				</a> 
-				<a href="#" class="x-unhappy-value">
-					<span>2.8x能量值: 413</span>
-				</a> 
-				<div class="_clear"></div>
-			</div>
-		
-		</div>
-		
-		<div class="panel panel-danger">
-			<div class="panel-heading">
-				<h3 class="panel-title">Panel title</h3>
-			</div>
-			<div class="panel-body">Panel content</div>
-				
-			<div class="x-info">
-				<a href="#" class="link">
-					<i class="icon ion-eye"></i> 
-					<span>2</span>
-				</a> 
-				
-				<a href="#" class="link">
-					<i class="icon ion-chatbox-working"></i> 
-					<span>1</span>
-				</a> 
-				<a href="#" class="x-unhappy-value">
-					<span>2.8x能量值: 413</span>
-				</a> 
-				<div class="_clear"></div>
-			</div>
-		
-		</div>
 
+<body>
+	<div class="header">发布广场</div>
+	
+    	<div id="inner_div">
+			<div class="info_div">
+				<div class="user-heading">
+					<div class="headImg">
+						<img style="width:100%;height:100%;"  src="img/QQ.png"/>
+					</div>
+					<div class="otherUserInfo">						<!-- fa fa-venus -->
+						<p><span>温柔的太阳君</span> &nbsp;<span class="fa fa-mars sex male"></span></p>
+						<p class="publishTime">刚刚</p>
+					</div>	
+				</div>
+				<div class="info_body">
+					<p class="info_content">你好吗</p>
+					<div class="imgList">
+						<img/><img /><img /><img /><img /><img />
+					</div>
+				</div>
+				<div class="x-info" style="clear:both;">
+					<div class="x_left">
+						<span><span>0</span>喜欢</span>&nbsp;
+						<span><span>0</span>评论</span>
+					</div>
+					<div class="x_right">
+						<!-- fa fa-heart -->
+						<i class="fa fa-heart like" onclick="clickLike(this)" aria-hidden="true"></i> &nbsp;
+						<i class="fa fa-commenting-o comment" aria-hidden="true"></i>
+					</div>
+					<div class="_clear"></div>
+				</div>
+			</div>
+			<div class="info_div">
+				<div class="user-heading">
+					<div class="headImg">
+						<img style="width:100%;height:100%;"  src="img/QQ.png"/>
+					</div>
+					<div class="otherUserInfo">						<!-- fa fa-venus -->
+						<p><span>温柔的太阳君</span> &nbsp;<span class="fa fa-mars sex male"></span></p>
+						<p class="publishTime">刚刚</p>
+					</div>	
+				</div>
+				<div class="info_body">
+					<p class="info_content">你好吗</p>
+					<div class="imgList">
+						<img/><img /><img /><img /><img /><img />
+					</div>
+				</div>
+				<div class="x-info" style="clear:both;">
+					<div class="x_left">
+						<span><span>0</span>喜欢</span>&nbsp;
+						<span><span>0</span>评论</span>
+					</div>
+					<div class="x_right">
+						<!-- fa fa-heart -->
+						<i class="fa fa-heart like" onclick="clickLike(this)" aria-hidden="true"></i> &nbsp;
+						<i class="fa fa-commenting-o comment" aria-hidden="true"></i>
+					</div>
+					<div class="_clear"></div>
+				</div>
+			</div>
+			<div class="info_div">
+				<div class="user-heading">
+					<div class="headImg">
+						<img style="width:100%;height:100%;"  src="img/QQ.png"/>
+					</div>
+					<div class="otherUserInfo">						<!-- fa fa-venus -->
+						<p><span>温柔的太阳君</span> &nbsp;<span class="fa fa-mars sex male"></span></p>
+						<p class="publishTime">刚刚</p>
+					</div>	
+				</div>
+				<div class="info_body">
+					<p class="info_content">你好吗</p>
+					<div class="imgList">
+						<img/><img /><img /><img /><img /><img />
+					</div>
+				</div>
+				<div class="x-info" style="clear:both;">
+					<div class="x_left">
+						<span><span>0</span>喜欢</span>&nbsp;
+						<span><span>0</span>评论</span>
+					</div>
+					<div class="x_right">
+						<!-- fa fa-heart -->
+						<i class="fa fa-heart like" onclick="clickLike(this)" aria-hidden="true"></i> &nbsp;
+						<i class="fa fa-commenting-o comment" aria-hidden="true"></i>
+					</div>
+					<div class="_clear"></div>
+				</div>
+			</div>
+			<div class="info_div">
+				<div class="user-heading">
+					<div class="headImg">
+						<img style="width:100%;height:100%;"  src="img/QQ.png"/>
+					</div>
+					<div class="otherUserInfo">						<!-- fa fa-venus -->
+						<p><span>温柔的太阳君</span> &nbsp;<span class="fa fa-mars sex male"></span></p>
+						<p class="publishTime">刚刚</p>
+					</div>	
+				</div>
+				<div class="info_body">
+					<p class="info_content">你好吗</p>
+					<div class="imgList">
+						<img/><img /><img /><img /><img /><img />
+					</div>
+				</div>
+				<div class="x-info" style="clear:both;">
+					<div class="x_left">
+						<span><span>0</span>喜欢</span>&nbsp;
+						<span><span>0</span>评论</span>
+					</div>
+					<div class="x_right">
+						<!-- fa fa-heart -->
+						<i class="fa fa-heart like" onclick="clickLike(this)" aria-hidden="true"></i> &nbsp;
+						<i class="fa fa-commenting-o comment" aria-hidden="true"></i>
+					</div>
+					<div class="_clear"></div>
+				</div>
+			</div>
+		</div>
+		
+			
+		
+		<div id="bottom_div">
+        	<p>加载中,请稍后.....</p>
+        	<p>本页面由 温柔的太阳君 开发</p>
+        	<p>微信a524294514</p>
+        </div>
+		
+		
+	<div id="data" >
+    	<div class="info_div">
+			<div class="user-heading">
+				<div class="headImg">
+					<img style="width:100%;height:100%;"  src="img/QQ.png"/>
+				</div>
+				<div class="otherUserInfo">						<!-- fa fa-venus -->
+					<p><span>温柔的太阳君</span> &nbsp;<span class="fa fa-mars sex male"></span></p>
+					<p class="publishTime">刚刚</p>
+				</div>	
+			</div>
+			<div class="info_body">
+				<p class="info_content">你好吗</p>
+				<div class="imgList">
+					<img/><img /><img /><img /><img /><img />
+				</div>
+			</div>
+			<div class="x-info" style="clear:both;">
+				<div class="x_left">
+					<span><span>0</span>喜欢</span>&nbsp;
+					<span><span>0</span>评论</span>
+				</div>
+				<div class="x_right">
+					<!-- fa fa-heart -->
+					<i class="fa fa-heart like" aria-hidden="true"></i> &nbsp;
+					<i class="fa fa-commenting-o comment" aria-hidden="true"></i>
+				</div>
+				<div class="_clear"></div>
+			</div>
+		</div>
+    </div>
+		
+		<div id="right_corner_menu" class="dropup">
+			<a href="javascript:void(0);" id="menu_a"><i class="fa fa-bars"   aria-hidden="true"></i></a>
+			<div style="display:none;">
+				<div id="menu_content">
+					<p>写心情</p>
+					<p>我的历史</p> 
+				</div>
+			</div>
+		</div>
+		
+		<div id="category_menu">
+			<a href="javascript:void(0);" id="menu_category">● ● ●</a>
+			<div style="display:none;">
+				<div id="category_content">
+						<p>广场</p>
+						<p>表白</p> 
+						<p>吐槽</p>
+						<p>自恋</p>
+				</div>
+			</div>
+		</div>
 </body>
  <!-- Bootstrap core JavaScript
     ================================================== -->
+  
+  
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+   <!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
     <script>window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')</script>
     <script src="js/bootstrap.min.js"></script>
-    <script src="js/docs.min.js"></script>
+   <!--  <script src="js/docs.min.js"></script> -->
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="js/ie10-viewport-bug-workaround.js"></script>
+    <script type="text/javascript" src="js/picturefill.min.js"></script>
+    <script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="js/basic.js"></script>
+    <script type="text/javascript" src="js/info.js"></script>
+    <script>
+    	setTooltip("menu_category","category_content");
+    </script>
+    
 </html>

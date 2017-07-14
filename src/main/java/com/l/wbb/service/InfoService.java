@@ -7,13 +7,12 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.l.wbb.bean.Comment;
 import com.l.wbb.bean.Info;
 import com.l.wbb.bean.LikeInfo;
+import com.l.wbb.bean.PaginationBean;
 import com.l.wbb.bean.Theme;
 
 public interface InfoService {
 
 	List<Theme> getAllTheme();
-
-	List<Info> getAllInfo();
 
 	List<Info> getUserHistory(Integer openid);
 
@@ -27,5 +26,10 @@ public interface InfoService {
 
 	List<Info> getInfoByTheme(Integer themeId);
 
+	List<Info> getFirstPageInfo();
+
+	List<Info> getInfoByRange(Integer start , Integer end);
+
+	List<Comment> getCommentByRange(Integer infoId,Integer start, Integer end);
 
 }
