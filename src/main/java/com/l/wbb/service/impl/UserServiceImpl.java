@@ -66,14 +66,17 @@ public class UserServiceImpl implements UserService{
 	@Transactional //事务操作，异常不需捕获
 	public void checkUser(User user) {
 		
-		//TODO 查找数据库，是否存在该用户，mapper你们自己写
+		// 查找数据库，是否存在该用户
 		User olderUser = userMapper.selectUser(user.getOpenid());
 		
 		if(olderUser == null){
-			//TODO 插入数据库，mapper自己写
+			//插入数据库
 			userMapper.insertUser(user);
 		}else{
-			// TODO 检查两个user是否不一样，若不一样的话更新user userMapper.updateUser(user);
+			//检查两个user是否不一样，若不一样的话更新user userMapper.updateUser(user);
+			if(olderUser!=user){
+				userMapper.updateUser(user);
+			}
 		}
 	}
 }
