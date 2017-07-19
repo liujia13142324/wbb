@@ -29,5 +29,15 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="E:/BaiduYunDownload/HttpClient4.2.1/commons-codec-1.6.jar"/>
+	<classpathentry kind="lib" path="E:/BaiduYunDownload/HttpClient4.2.1/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="E:/BaiduYunDownload/HttpClient4.2.1/fluent-hc-4.2.1.jar"/>
+	<classpathentry kind="lib" path="E:/BaiduYunDownload/HttpClient4.2.1/httpclient-4.2.1.jar"/>
+	<classpathentry kind="lib" path="E:/BaiduYunDownload/HttpClient4.2.1/httpclient-cache-4.2.1.jar"/>
+	<classpathentry kind="lib" path="E:/BaiduYunDownload/HttpClient4.2.1/httpcore-4.2.1.jar"/>
+	<classpathentry kind="lib" path="E:/BaiduYunDownload/HttpClient4.2.1/httpmime-4.2.1.jar"/>
+	<classpathentry kind="lib" path="E:/BaiduYunDownload/Json/json-2.2.1.jar"/>
+	<classpathentry kind="lib" path="E:/BaiduYunDownload/Json/json-lib-2.4-jdk15.jar"/>
+	<classpathentry kind="lib" path="E:/BaiduYunDownload/Json/json-parser_fat.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
