@@ -12,6 +12,16 @@ import com.l.wbb.bean.GoodsComment;
 import com.l.wbb.bean.GoodsImage;
 import com.l.wbb.service.GoodsService;
 
+/**
+ * 逻辑步骤原则
+ * 1.牵扯到多条sql，多次操作数据库的时候，要添加事务操作
+ * 2.牵扯到实务操作就不要捕获异常，我在上层捕获。其他所有未牵扯到事务操作的数据库操作都要捕获异常
+ * （就算没报错，也要手动捕获）
+ * 3.mapper里面的sql语句也一样，不要偷懒，只写上操作的数据的字段，禁止用 *号
+ * 4.不懂问我
+ * @author ua
+ *
+ */
 public class GoodsServiceImpl implements GoodsService{
 
 	@Override
