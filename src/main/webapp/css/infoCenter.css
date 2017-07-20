@@ -1,3 +1,8 @@
+input,textarea{
+	box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+	-webkit-appearance: none;
+	border-radius:0px;
+}
 .header{
 	background-color:white;
 	width:100%;
@@ -81,7 +86,7 @@ body{
 	    padding: 15px;
 	    min-height: 100px;
 	    clear: both;
-	    width:100%;
+	    width:98%;
 }
 .info_body{
 	font-size:16px;
@@ -91,6 +96,22 @@ body{
 	margin-bottom:4px;
 	float:left;
 	width:31%;
+}
+#imgList img{
+	margin-right:4px;
+	margin-bottom:4px;
+	float:left;
+	width:23%;
+}
+.img_div{
+	margin-right:4px;
+	margin-bottom:4px;
+	float:left;
+	width:23%;
+    text-align: center;
+    border:1px solid #ccc;
+    overflow: hidden;
+    position:relative;
 }
 
 .like{
@@ -114,6 +135,7 @@ body{
     right: 10px;
     bottom: 10px;
     position: fixed;
+    z-index: 11;
 }
 #right_corner_menu i{
 	 line-height: 50px;
@@ -125,6 +147,7 @@ body{
     top: 15px;
     position: fixed;
     text-align: center;
+    z-index: 11;
 }
 #menu_content p,#category_content p{
 	cursor: pointer;
@@ -158,14 +181,27 @@ body{
 	margin-bottom:6px;
 }
 
+@media screen and (min-width:400px){
+	
+	#emotions{
+		width:200px;
+	}
+}
+
 @media screen and (min-width:1200px){
-	   .imgList img{
+	   .imgList img , .img_div{
 		margin-right:4px;
 		margin-bottom:4px;
 		float:left;
 		width:150px;
 		height:150px;
 	}
+	
+	#emotions{
+		width:565px;
+	}
 }
+
+
 
 

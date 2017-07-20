@@ -9,4 +9,6 @@ public interface UserMapper {
 
 	User selectUser(String openid);
 
+	int updateUser(User user);
+
 }
