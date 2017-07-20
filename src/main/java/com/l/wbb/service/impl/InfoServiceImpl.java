@@ -71,9 +71,12 @@ public class InfoServiceImpl implements InfoService {
 		// TODO 1.将所有的图片文件进行存储
 		List<Image> imgs = uploadImg(info,request);
 		if(imgs != null){
-			//  2. 将imgs插入 image表 
 			info.setPublishTime(new Date());
-			//  3. 将info插入 info表
+			//  2. 将info插入 info表
+			
+			//  3. 将imgs插入 image表 
+			
+			
 		}
 			
 		return false;

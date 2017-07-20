@@ -91,4 +91,56 @@ DELIMITER ;
 
 select currval('themeId')
 
+-- 二手市场新增关系表
 
+-- 商品类型表
+-- 一定要有其他分类
+create table category(
+	categoryId integer primary key,
+    name varchar(20) not null 
+)
+
+-- 主图表
+create table mainImage(
+	imgId integer primary key,
+    imgPath varchar(200) not null
+)
+
+-- 子图表
+create table subImage(
+	imgId integer,
+	imgPath varchar(200) not null,
+	primary key(imgId,imgPath),
+    FOREIGN KEY (imgId) REFERENCES mainImage (imgId)
+)
+-- 主图是可以直接在goodsCenter的商品列表中可以浏览的，每个商品只有一张，商品外键关联主图表
+-- 每个商品又可以有多张图片，所以添加子图表
+
+-- 		要分成两个表的原因，为了把 商品和图片关联起来，如果图片是依赖商品表，在商品中又设置了图片id字段，这样又
+-- 		会导致商品依赖图片表，所以把图片表分成主图和子图，子图和商品同时依赖主图表，做插入时，最先插入主图
+
+-- 商品表
+create table goods(
+	openid varchar(30) ,
+	categoryId integer,
+	goodsId integer primary key,
+	goodsTitle varchar(40) not null,
+    goodsIntroduction varchar(300) ,
+	price float not null check(price>0),
+	publishTime Date not null,
+    imgId integer ,   -- 主图ID 
+	FOREIGN KEY (openid) REFERENCES user (openid),
+    FOREIGN KEY (categoryId) REFERENCES category (categoryId),
+	FOREIGN KEY (imgId) REFERENCES mainImage (imgId)
+)
+
+-- 商品评论表
+create table goodsComment(
+	openId varchar(30),
+	goodsId integer ,
+	commentContent varchar(200) check (commentContent>30),
+	publishDate date,
+    primary key(openId,goodsId),
+	FOREIGN KEY (goodsId) REFERENCES goods (goodsId),
+    FOREIGN KEY (openId) REFERENCES user (openId)
+)

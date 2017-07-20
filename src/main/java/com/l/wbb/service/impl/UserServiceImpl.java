@@ -1,15 +1,10 @@
 package com.l.wbb.service.impl;
 
-import java.io.IOException;
-
-import net.sf.json.JSONObject;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.l.wbb.bean.User;
-import com.l.wbb.context.WbbUtil;
 import com.l.wbb.mapper.UserMapper;
 import com.l.wbb.service.UserService;
 
@@ -24,8 +19,10 @@ public class UserServiceImpl implements UserService{
 	 * @see com.l.wbb.service.UserService#findUser(java.lang.String)
 	 */
 	public User findUser(String code) {
-		String accesstokenRequest = "https://api.weixin.qq.com/sns/oauth2/access_token?appid="+WbbUtil.APPID
-				+"&secret="+WbbUtil.APPSECRET+"&code="+code+"&grant_type=authorization_code";
+		String appid = "";
+		String secret = "";
+		String accesstokenRequest = "https://api.weixin.qq.com/sns/oauth2/access_token?appid="+appid
+				+"&secret="+secret+"&code="+code+"&grant_type=authorization_code";
 
 		// TODO 发送 http 请求 ，获得 access_token ，正确的返回格式为
 		/*{ "access_token":"ACCESS_TOKEN",    
@@ -34,16 +31,9 @@ public class UserServiceImpl implements UserService{
 			 "openid":"OPENID",    
 			 "scope":"SCOPE" } 
 		*/
-		JSONObject jsonObject=null;
-		try {
-			jsonObject = WbbUtil.doGetJson(accesstokenRequest);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-			
-		String openid=jsonObject.getString("openid");
-		String accesstoken=jsonObject.getString("access_token");
+		
+		String openid="";
+		String accesstoken="";
 		String userinfoRequest = "https://api.weixin.qq.com/sns/userinfo?"
 				+"access_token="+accesstoken+"&openid="+openid+"&lang=zh_CN ";
 		
@@ -60,17 +50,10 @@ public class UserServiceImpl implements UserService{
 				 "unionid": "o6_bmasdasdsad6_2sgVt7hMZOPfL" 
 			} 
 	*/
-		JSONObject userInfo=null;
-		try {
-			userInfo = WbbUtil.doGetJson(userinfoRequest);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println(userInfo);
+		
 		User user = new User();
 		//TODO 设置 openid，nickname，sex，headimgurl
-		user=(User) JSONObject.toBean(userInfo,User.class);
+		
 		return user;
 	}
 
@@ -83,17 +66,14 @@ public class UserServiceImpl implements UserService{
 	@Transactional //事务操作，异常不需捕获
 	public void checkUser(User user) {
 		
-		// 查找数据库，是否存在该用户
+		//TODO 查找数据库，是否存在该用户，mapper你们自己写
 		User olderUser = userMapper.selectUser(user.getOpenid());
 		
 		if(olderUser == null){
-			//插入数据库
+			//TODO 插入数据库，mapper自己写
 			userMapper.insertUser(user);
 		}else{
-			//检查两个user是否不一样，若不一样的话更新user userMapper.updateUser(user);
-			if(olderUser!=user){
-				userMapper.updateUser(user);
-			}
+			// TODO 检查两个user是否不一样，若不一样的话更新user userMapper.updateUser(user);
 		}
 	}
 }
