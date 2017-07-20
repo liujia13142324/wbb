@@ -18,7 +18,7 @@ public interface GoodsService {
 
 	List<GoodsComment> getCommentByRange(Integer goodsId, Integer start, Integer end);
 
-	List<Goods> getGoodsByCategory(Integer categoryId);
+	List<Goods> getCategoryGoodsByRange(Integer categoryId, Integer start, Integer end);
 
 	List<Goods> getUserHistory(Integer openid);
 
@@ -27,5 +27,9 @@ public interface GoodsService {
 	boolean publishGoods(Goods goods, MultipartHttpServletRequest request);
 
 	boolean publishComent(GoodsComment comment);
+
+	List<Goods> getGoodsBySearch(String searchCondition);
+
+	
 
 }

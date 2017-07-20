@@ -26,15 +26,16 @@ public class GoodsHandler {
 	private GoodsService goodsService;
 
 	@RequestMapping("/goodsCenter")
-	public String enterGoodsCenter(HttpServletRequest request, Integer categoryId) {
+	public String enterGoodsCenter(HttpServletRequest request, Integer categoryId , String searchCondition) {
 
 		List<Category> categories = goodsService.getCategory();
 		List<Goods> products = null;
-		if (categoryId == null) {
-			
-			products = goodsService.getGoodsByRange(1, 10);
+		if (categoryId != null) {
+			products = goodsService.getCategoryGoodsByRange(categoryId,1,10);
+		}else if(searchCondition != null){
+			products = goodsService.getGoodsBySearch(searchCondition);
 		} else {
-			products = goodsService.getGoodsByCategory(categoryId);
+			products = goodsService.getGoodsByRange(1, 10);
 		}
 
 		if (categories != null && products != null) {
@@ -74,6 +75,15 @@ public class GoodsHandler {
 		return  goodsService.getGoodsByRange(start, end);
 		
 	}
+	
+	@RequestMapping("/getCategoryGoodsByScroll")
+	@ResponseBody
+	public List<Goods> getCategoryInfoByScroll(Integer categoryId ,Integer start , Integer end){
+		 // start 起码从11开始 end起码从20开始
+		return  goodsService.getCategoryGoodsByRange(categoryId, start, end);
+		
+	}
+	
 	
 	@RequestMapping("/getGoodsCommentByScroll")
 	@ResponseBody

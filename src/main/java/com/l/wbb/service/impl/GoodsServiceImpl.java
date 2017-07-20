@@ -3,6 +3,7 @@ package com.l.wbb.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -22,6 +23,7 @@ import com.l.wbb.service.GoodsService;
  * @author ua
  *
  */
+@Service("goodsService")
 public class GoodsServiceImpl implements GoodsService{
 
 	@Override
@@ -45,8 +47,14 @@ public class GoodsServiceImpl implements GoodsService{
 	}
 
 	@Override
-	public List<Goods> getGoodsByCategory(Integer categoryId) {
+	public List<Goods> getCategoryGoodsByRange(Integer categoryId, Integer start, Integer end) {
 		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public List<Goods> getGoodsBySearch(String searchCondition) {
+		// TODO 使用sql模糊匹配即可 like '%searchCondition%'
 		return null;
 	}
 
@@ -88,5 +96,6 @@ public class GoodsServiceImpl implements GoodsService{
 		// TODO Auto-generated method stub
 		return false;
 	}
+
 
 }
