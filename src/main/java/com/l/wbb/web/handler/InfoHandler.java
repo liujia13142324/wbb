@@ -105,6 +105,13 @@ public class InfoHandler {
 		
 	}
 	
+	@RequestMapping("/getThemeInfoByScroll")
+	@ResponseBody
+	public List<Info> getThemeInfoByScroll(Integer ThemeId,Integer start , Integer end){
+		 // start 起码从11开始 end起码从20开始
+		return  infoService.getThemeInfoByRange(ThemeId, start, end);		
+	}
+	
 	@RequestMapping("/getCommentByScroll")
 	@ResponseBody
 	public List<Comment> getCommentByScroll(Integer infoId , Integer start , Integer end){

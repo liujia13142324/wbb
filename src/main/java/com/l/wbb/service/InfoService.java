@@ -30,6 +30,8 @@ public interface InfoService {
 
 	List<Info> getInfoByRange(Integer start , Integer end);
 
+	List<Info> getThemeInfoByRange(Integer ThemeId , Integer start, Integer end);
+	
 	List<Comment> getCommentByRange(Integer infoId,Integer start, Integer end);
 
 }

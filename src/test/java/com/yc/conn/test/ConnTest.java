@@ -64,4 +64,9 @@ public class ConnTest {
 		}
 	}
 
+	@Test
+	public void testRequest(){
+		
+	}
+	
 }
