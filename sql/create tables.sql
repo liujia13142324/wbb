@@ -128,7 +128,8 @@ create table goods(
     goodsIntroduction varchar(300) ,
 	price float not null check(price>0),
 	publishTime Date not null,
-    imgId integer ,   -- 主图ID 
+    imgId integer ,
+    tips varchar(30) , -- 备注 --> 可小刀，包邮，面议，等等
 	FOREIGN KEY (openid) REFERENCES user (openid),
     FOREIGN KEY (categoryId) REFERENCES category (categoryId),
 	FOREIGN KEY (imgId) REFERENCES mainImage (imgId)

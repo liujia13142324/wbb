@@ -12,9 +12,20 @@ public class Goods {
 	private Date publishTime ;
 	// 主图
 	private GoodsImage mainImage;
+	private String tips;
 	
-	public Goods(String openId, Integer goodsId,  String goodsTitle, String goodsIntroduction,
-			Float price, Date publishTime, GoodsImage mainImage) {
+	public Goods() {
+	}
+
+	@Override
+	public String toString() {
+		return "Goods [openId=" + openId + ", goodsId=" + goodsId + ", goodsTitle=" + goodsTitle
+				+ ", goodsIntroduction=" + goodsIntroduction + ", price=" + price + ", publishTime=" + publishTime
+				+ ", mainImage=" + mainImage + ", tips=" + tips + "]";
+	}
+
+	public Goods(String openId, Integer goodsId, String goodsTitle, String goodsIntroduction, Float price,
+			Date publishTime, GoodsImage mainImage, String tips) {
 		super();
 		this.openId = openId;
 		this.goodsId = goodsId;
@@ -23,16 +34,15 @@ public class Goods {
 		this.price = price;
 		this.publishTime = publishTime;
 		this.mainImage = mainImage;
-	}
-	
-	public Goods() {
+		this.tips = tips;
 	}
 
-	@Override
-	public String toString() {
-		return "Goods [openId=" + openId + ", goodsId=" + goodsId  + ", goodsTitle=" + goodsTitle
-				+ ", goodsIntroduction=" + goodsIntroduction + ", price=" + price + ", publishTime=" + publishTime
-				+ ", mainImage=" + mainImage + "]";
+	public String getTips() {
+		return tips;
+	}
+
+	public void setTips(String tips) {
+		this.tips = tips;
 	}
 
 	public String getOpenId() {
