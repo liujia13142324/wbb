@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService{
 			userMapper.insertUser(user);
 		}else{
 			//检查两个user是否不一样，若不一样的话更新user userMapper.updateUser(user);
-			if(olderUser!=user){
+			if(!olderUser.equals(user)){
 				userMapper.updateUser(user);
 			}
 		}
