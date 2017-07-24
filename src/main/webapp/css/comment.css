@@ -1,0 +1,78 @@
+.user-heading {
+	width: 100%;
+}
+
+.user-heading {
+	float: left;
+	padding: 0px;
+	background-color: white;
+	border-bottom: 1px solid #ddd;
+}
+
+.user-heading div {
+	float: left;
+	margin: 10px;
+}
+
+.headImg {
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	overflow: hidden;
+}
+
+.user-heading div {
+	float: left;
+	margin: 10px;
+}
+/* 当屏幕尺寸小于300时，布局会乱 */
+.otherInfo {
+	width: 70%;
+}
+
+.commentContent {
+	clear: both;
+}
+
+.face-icon {
+	font-size: 24px;
+	vertical-align: middle;
+	background: white;
+	height: 100%;
+	display: block;
+	float: left;
+}
+
+#comment_list {
+	margin-top: 20px;
+}
+
+.comment_list_header {
+	height: 36px;
+	line-height: 36px;
+	padding-left: 10px;
+	border-bottom: 1px dashed #ccc;
+	background-color: white;
+	margin-bottom: 0px;
+}
+
+#publishComment_div {
+	position: fixed;
+	bottom: 0px;
+	/* height:9%; */
+	border-top: 1px solid #ccc;
+	border-radius: 0px;
+	background-color: white;
+	width: 100%;
+	z-index: 100;
+}
+
+#comment_text {
+	width: 100%;
+	resize: none;
+	border: none;
+	padding-top: 10px;
+	/*去掉阴影*/
+	box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+	-webkit-appearance: none;
+}

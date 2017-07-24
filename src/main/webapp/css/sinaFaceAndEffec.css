@@ -8,6 +8,7 @@
 	padding: 10px 0;
 	position: absolute;
 	border: 1px solid #E8E8E8;
+	z-index:100;
 }
 #emotions a{
 	color: #9ABBC8;
@@ -86,4 +87,18 @@
 }
 #emotions .page a:hover{
 	background-color:#e7e7e7;
+}
+@media screen and (min-width:400px){
+	#emotions{
+		width:150px;
+	}
+}
+
+@media screen and (min-width:1200px){
+	#emotions{
+		width:565px;
+	}
+}
+#comment {
+	font-size: 23px;
 }

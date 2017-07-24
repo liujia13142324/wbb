@@ -175,3 +175,16 @@ function AnalyticEmotion(s) {
 		}
 	}
 })(jQuery);
+
+
+//点击文本框，focus后软键盘不会遮住文本框
+if (/Android [4-6]/.test(navigator.appVersion)) {
+	   window.addEventListener('resize', function () {
+	     if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
+	        window.setTimeout(function () {
+	          document.activeElement.scrollIntoViewIfNeeded()
+	        }, 0)
+	      }
+	   })
+	}
+

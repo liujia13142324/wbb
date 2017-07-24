@@ -16,9 +16,6 @@
 <link href="lightGallery/css/lightgallery.css" rel="stylesheet">
 <link href="css/publishInfo.css" rel="stylesheet">
 </head>
-<style>
-
-</style>
 <body>
 	<div class="header">
 		<span class="header_left"><span class="fa fa-times header_icon"
@@ -53,13 +50,8 @@
 </script>
 <script type="text/javascript" src="js/sinaFaceAndEffec.js"></script>
 <script src="js/exif.js"></script>
-
-<script src="lightGallery/js/picturefill.min.js"></script>
-<script src="lightGallery/js/lightgallery.js"></script>
-<script src="lightGallery/js/lg-pager.js"></script>
-<script src="lightGallery/js/lg-fullscreen.js"></script>
-<script src="lightGallery/js/lg-zoom.js"></script>
-<script src="lightGallery/js/lg-hash.js"></script>
-
+<script src="js/initLightGallery.js"></script>
+<!-- 图片自适应的包  -->
+<!-- <script src="js/backStretch.min.js"></script> -->
 <script src="js/publishInfo.js"></script>
 </html>

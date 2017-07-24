@@ -70,7 +70,7 @@ public class InfoHandler {
 	public String publishInfo(Info info,HttpServletRequest req,MultipartHttpServletRequest request){
 		
 		if(infoService.publishInfo(info,request)){
-			return "forward:/info/infoCenter";
+			return "redirect:/info/infoCenter";
 		}
 		return "/fail";
 	}

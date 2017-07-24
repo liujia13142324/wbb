@@ -24,9 +24,18 @@ input,textarea{
 }
 .x_right{
 	float:right;
-	margin-right:30px;
+	margin-right:25px;
 	font-size: 20px
 }
+
+.x_right i{
+	width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+}
+
+
 
 body{
 	background-color: #EAEAEA;
@@ -122,46 +131,6 @@ body{
 	color:#5CA4DC;
 	cursor: pointer;
 }
-#right_corner_menu{
-	border-radius: 50%;
-	text-align: center;
-    width: 50px;
-    height: 50px;
-    display: inline-block;
-    /*#09c64e*/
-    border: 1px solid  #49dd7f;
-    background: #49dd7f;
-    opacity: .9;
-    right: 10px;
-    bottom: 10px;
-    position: fixed;
-    z-index: 11;
-}
-#right_corner_menu i{
-	 line-height: 50px;
-   	 color: #fff;
-     font-size: 20px;
-}
-#category_menu{
-    right: 10px;
-    top: 15px;
-    position: fixed;
-    text-align: center;
-    z-index: 11;
-}
-#menu_content p,#category_content p{
-	cursor: pointer;
-    height: 30px;
-    line-height: 30px;
-    font-size: 14px;
-    margin: 0;
-    text-align: center;
-    min-width: 100px;
-}
-
-#menu_content p:hover,#category_content p:hover{
-	background-color:#ccc;
-}
 
 #bottom_div{
 	width:100%;
@@ -181,12 +150,6 @@ body{
 	margin-bottom:6px;
 }
 
-@media screen and (min-width:400px){
-	
-	#emotions{
-		width:150px;
-	}
-}
 
 @media screen and (min-width:1200px){
 	   .imgList img , .img_div{
@@ -196,12 +159,4 @@ body{
 		width:150px;
 		height:150px;
 	}
-	
-	#emotions{
-		width:565px;
-	}
 }
-
-
-
-

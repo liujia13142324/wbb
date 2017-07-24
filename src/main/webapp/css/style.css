@@ -44,6 +44,7 @@ textarea,
 .flex-text-wrap pre {
     display: block;
     visibility: hidden;
+    min-height:40px;
 }
 
 textarea,

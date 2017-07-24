@@ -30,8 +30,8 @@ public class CenterHandler {
 			if (user.getOpenid()!=null){
 				userService.checkUser(user);
 				session.setAttribute("user", user);
-				// 跳转到另外一个handler
-				return "forward:/info/infoCenter";
+				// 跳转到另外一个handler , 需改成重定向
+				return "redirect:/info/infoCenter";
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

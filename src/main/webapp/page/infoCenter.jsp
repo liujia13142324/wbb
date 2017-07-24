@@ -11,19 +11,17 @@
 <meta name="author" content="">
 <base href="/wbb/">
 <title>发布广场</title>
-<!-- Bootstrap core CSS -->
-<link href="css/bootstrap.min.css" rel="stylesheet">
-<!-- Bootstrap theme -->
-<link href="css/bootstrap-theme.min.css" rel="stylesheet">
-<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-<link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+<link href="css/basic.css" rel="stylesheet">
 <link href="css/lib.css" rel="stylesheet">
 <link href="css/infoCenter.css" rel="stylesheet">
 <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
 <link rel="stylesheet" href="easyui/css/easyui.css">
 <link rel="stylesheet" href="css/pullToRefresh.css"/>
+<link rel="stylesheet" href="css/menu.css">
+
 <script src="js/iscroll.js"></script>
 <script src="js/pullToRefresh.js"></script>
+
 <title>发布广场</title>
 </head>
 <style>
@@ -32,10 +30,6 @@ body, html {
 	margin: 0;
 	height: 100%;
 	font-family: Arial, Helvetica, sans-serif;
-}
-#inner_div{
-	position: relative;
-	height:100%;
 }
 </style>
 <body>
@@ -65,95 +59,7 @@ body, html {
 					</div>
 					<div class="x_right">
 						<!-- fa fa-heart -->
-						<i class="fa fa-heart like" onclick="clickLike(this)" aria-hidden="true"></i> &nbsp;
-						<i class="fa fa-commenting-o comment" aria-hidden="true"></i>
-					</div>
-					<div class="_clear"></div>
-				</div>
-			</div>
-			<div class="info_div">
-				<div class="user-heading">
-					<div class="headImg">
-						<img style="width:100%;height:100%;"  src="img/QQ.png"/>
-					</div>
-					<div class="otherUserInfo">						<!-- fa fa-venus -->
-						<p><span>温柔的太阳君</span> &nbsp;<span class="fa fa-mars sex male"></span></p>
-						<p class="publishTime">刚刚</p>
-					</div>	
-				</div>
-				<div class="info_body">
-					<p class="info_content">你好吗</p>
-					<div class="imgList">
-						<img/><img /><img /><img /><img /><img />
-					</div>
-				</div>
-				<div class="x-info" style="clear:both;">
-					<div class="x_left">
-						<span><span>0</span>喜欢</span>&nbsp;
-						<span><span>0</span>评论</span>
-					</div>
-					<div class="x_right">
-						<!-- fa fa-heart -->
-						<i class="fa fa-heart like" onclick="clickLike(this)" aria-hidden="true"></i> &nbsp;
-						<i class="fa fa-commenting-o comment" aria-hidden="true"></i>
-					</div>
-					<div class="_clear"></div>
-				</div>
-			</div>
-			<div class="info_div">
-				<div class="user-heading">
-					<div class="headImg">
-						<img style="width:100%;height:100%;"  src="img/QQ.png"/>
-					</div>
-					<div class="otherUserInfo">						<!-- fa fa-venus -->
-						<p><span>温柔的太阳君</span> &nbsp;<span class="fa fa-mars sex male"></span></p>
-						<p class="publishTime">刚刚</p>
-					</div>	
-				</div>
-				<div class="info_body">
-					<p class="info_content">你好吗</p>
-					<div class="imgList">
-						<img/><img /><img /><img /><img /><img />
-					</div>
-				</div>
-				<div class="x-info" style="clear:both;">
-					<div class="x_left">
-						<span><span>0</span>喜欢</span>&nbsp;
-						<span><span>0</span>评论</span>
-					</div>
-					<div class="x_right">
-						<!-- fa fa-heart -->
-						<i class="fa fa-heart like" onclick="clickLike(this)" aria-hidden="true"></i> &nbsp;
-						<i class="fa fa-commenting-o comment" aria-hidden="true"></i>
-					</div>
-					<div class="_clear"></div>
-				</div>
-			</div>
-			<div class="info_div">
-				<div class="user-heading">
-					<div class="headImg">
-						<img style="width:100%;height:100%;"  src="img/QQ.png"/>
-					</div>
-					<div class="otherUserInfo">						<!-- fa fa-venus -->
-						<p><span>温柔的太阳君</span> &nbsp;<span class="fa fa-mars sex male"></span></p>
-						<p class="publishTime">刚刚</p>
-					</div>	
-				</div>
-				<div class="info_body">
-					<p class="info_content">你好吗</p>
-					<div class="imgList">
-						<img/><img /><img /><img /><img /><img />
-					</div>
-				</div>
-				<div class="x-info" style="clear:both;">
-					<div class="x_left">
-						<span><span>0</span>喜欢</span>&nbsp;
-						<span><span>0</span>评论</span>
-					</div>
-					<div class="x_right">
-						<!-- fa fa-heart -->
-						<i class="fa fa-heart like" onclick="clickLike(this)" aria-hidden="true"></i> &nbsp;
-						<i class="fa fa-commenting-o comment" aria-hidden="true"></i>
+						<i class="fa fa-heart like" onclick="clickLike(this)" aria-hidden="true"></i><i class="fa fa-commenting-o comment" aria-hidden="true"></i>
 					</div>
 					<div class="_clear"></div>
 				</div>
@@ -162,55 +68,14 @@ body, html {
 	</div>
 		
 		
-			
-	
-	<!-- <div id="bottom_div">
-       	<p>加载中,请稍后.....</p>
-       	<p>本页面由 温柔的太阳君 开发</p>
-       	<p>微信a524294514</p>
-    </div> -->
-		
-	<!-- 	
-	<div id="data" >
-    	<div class="info_div">
-			<div class="user-heading">
-				<div class="headImg">
-					<img style="width:100%;height:100%;"  src="img/QQ.png"/>
-				</div>
-				<div class="otherUserInfo">						fa fa-venus
-					<p><span>温柔的太阳君</span> &nbsp;<span class="fa fa-mars sex male"></span></p>
-					<p class="publishTime">刚刚</p>
-				</div>	
-			</div>
-			<div class="info_body">
-				<p class="info_content">你好吗</p>
-				<div class="imgList">
-					<img/><img /><img /><img /><img /><img />
-				</div>
-			</div>
-			<div class="x-info" style="clear:both;">
-				<div class="x_left">
-					<span><span>0</span>喜欢</span>&nbsp;
-					<span><span>0</span>评论</span>
-				</div>
-				<div class="x_right">
-					fa fa-heart
-					<i class="fa fa-heart like" aria-hidden="true"></i> &nbsp;
-					<i class="fa fa-commenting-o comment" aria-hidden="true"></i>
-				</div>
-				<div class="_clear"></div>
-			</div>
-		</div>
-    </div>
-		
-		 -->
-		
 		<div id="right_corner_menu" class="dropup">
 			<a href="javascript:void(0);" id="menu_a"><i class="fa fa-bars"   aria-hidden="true"></i></a>
 			<div style="display:none;">
 				<div id="menu_content">
 					<p>写心情</p>
 					<p>我的历史</p> 
+					<p>吐槽广场</p> 
+					<p>二手市场</p> 
 				</div>
 			</div>
 		</div>
@@ -242,31 +107,9 @@ body, html {
     <script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="js/basic.js"></script>
     <script type="text/javascript" src="js/info.js"></script>
+    <script src="js/reflush.js"></script>
     <script>
     	setTooltip("menu_category","category_content"); 
-    	
-    	refresher.init({
-    		id:"inner_div",
-    		pullDownAction:Refresh,
-    		pullUpAction:Load
-    	});
-    	
-    	
-    	function Refresh() {
-    		console.info("up");
-    		setTimeout(function () {	// <-- Simulate network congestion, remove setTimeout from production!
-    			myScroll.refresh();/****remember to refresh when you action was completed！！！****/
-    		}, 1000);
-    	}
-    	function Load() {
-    		console.info("down ");
-    		setTimeout(function () {// <-- Simulate network congestion, remove setTimeout from production!
-    			myScroll.refresh();/****remember to refresh when you action was completed！！！****/
-    		}, 1000);
-
-    	}
-    	
-    	
     </script>
     
 </html>

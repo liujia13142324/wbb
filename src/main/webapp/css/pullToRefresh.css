@@ -99,3 +99,12 @@ to {
 	-webkit-transform: scale(1, 1);
 }
 }
+#inner_div{
+	position: relative;
+    height: 100%;
+}
+body, html {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+}
