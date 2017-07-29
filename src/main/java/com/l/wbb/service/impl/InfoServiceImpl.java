@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -19,6 +21,7 @@ import com.l.wbb.service.InfoService;
 @Service("infoService")
 public class InfoServiceImpl implements InfoService {
 
+	@Autowired
 	private InfoMapper infoMapper;
 	
 	@Override
@@ -73,9 +76,12 @@ public class InfoServiceImpl implements InfoService {
 		// TODO 1.将所有的图片文件进行存储
 		List<Image> imgs = uploadImg(info,request);
 		if(imgs != null){
-			//  2. 将imgs插入 image表 
 			info.setPublishTime(new Date());
-			//  3. 将info插入 info表
+			//  2. 将info插入 info表
+			
+			//  3. 将imgs插入 image表 
+			
+			
 		}
 			
 		return false;
@@ -86,7 +92,16 @@ public class InfoServiceImpl implements InfoService {
 		comment.setPublishDate(new Date());
 		// TODO 1.将 comment插入数据库
 			//  2.捕获异常，不做任何处理
-		return infoMapper.publishComent(comment)>0;
+		int result=0;
+		try {
+			result=infoMapper.publishComent(comment);
+			System.out.println(result);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			LogManager.getLogger().debug("插入评论失败！");
+			e.printStackTrace();
+		}
+		return result>0;
 	}
 	/*lxd*/
 	@Override
@@ -95,13 +110,19 @@ public class InfoServiceImpl implements InfoService {
 				//  2. 如果status==1 则将 likeInfo 插入数据库
 				//  3. 如果status==0 则将 likeInfo 从数据库删除
 				//  4.捕获异常，不做任何处理 , 
-		int result;
-		if(setStatus==1){
-			result=infoMapper.addLikeInfo(likeInfo);
-		}else if(setStatus==0){
-			result=infoMapper.deleteLikeInfo(likeInfo);
-		}else{
-			result=0;
+		int result=0;
+		try {
+			if(setStatus==1){
+				result=infoMapper.addLikeInfo(likeInfo);
+			}else if(setStatus==0){
+				result=infoMapper.deleteLikeInfo(likeInfo);
+			}else{
+				result=0;
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			LogManager.getLogger().debug("点赞失败！");
+			e.printStackTrace();
 		}
 		return result>0;
 	}
@@ -114,8 +135,13 @@ public class InfoServiceImpl implements InfoService {
 		    //3.获得 start ~ end 的数据 ，以上皆为一条sql完成
 			//4.进行异常捕获，不做任何处理，失败了返回null,成功返回  infos
 		
-		infos=infoMapper.getInfoByRange(start,end);
-		
+		try {
+			infos=infoMapper.getInfoByRange(start,end);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			LogManager.getLogger().debug("评论失败！");
+			e.printStackTrace();
+		}
 		return infos;
 	}
 	/*lxd*/
@@ -125,8 +151,13 @@ public class InfoServiceImpl implements InfoService {
 		// TODO 
 		//  1.获取所有评论信息按时间倒叙返回，最早发表的评论在最前面 
 		//  2.获得start ~ end 的数据 ，以上皆为一条sql完成
-		//  3.进行异常捕获，不做任何处理，失败了返回null,成功返回  comments 
-		comments=infoMapper.getCommentByRange(infoId,start,end);
+		//  3.进行异常捕获，不做任何处理，失败了返回null,成功返回  comments  
+		try {
+			comments=infoMapper.getCommentByRange(infoId,start,end);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return comments;
 	}
 	

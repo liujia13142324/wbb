@@ -2,18 +2,22 @@ package com.l.wbb.bean;
 
 import java.util.Date;
 
+
 public class Comment {
 	private String openId ;
 	private Integer infoId;
 	private String commentContent;
 	private Date publishDate;
 	public Comment(String openId, Integer infoId, String commentContent, Date publishDate) {
-		super();
 		this.openId = openId;
 		this.infoId = infoId;
 		this.commentContent = commentContent;
 		this.publishDate = publishDate;
+	
 	}
+	public Comment() {
+	}
+	
 	@Override
 	public String toString() {
 		return "Comment [openId=" + openId + ", infoId=" + infoId + ", commentContent=" + commentContent
