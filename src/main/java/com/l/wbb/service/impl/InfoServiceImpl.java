@@ -198,7 +198,16 @@ public class InfoServiceImpl implements InfoService {
 		comment.setPublishDate(new Date());
 		// TODO 1.将 comment插入数据库
 		// 2.捕获异常，不做任何处理
-		return false;
+		int result=0;
+		try {
+			result=infoMapper.publishComent(comment);
+			System.out.println(result);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			LogManager.getLogger().debug("插入评论失败！");
+			e.printStackTrace();
+		}
+		return result>0;
 	}
 
 	@Override
@@ -207,7 +216,21 @@ public class InfoServiceImpl implements InfoService {
 		// 2. 如果status==1 则将 likeInfo 插入数据库
 		// 3. 如果status==0 则将 likeInfo 从数据库删除
 		// 4.捕获异常，不做任何处理 ,
-		return false;
+		int result=0;
+		try {
+			if(setStatus==1){
+				result=infoMapper.addLikeInfo(likeInfo);
+			}else if(setStatus==0){
+				result=infoMapper.deleteLikeInfo(likeInfo);
+			}else{
+				result=0;
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			LogManager.getLogger().debug("点赞失败！");
+			e.printStackTrace();
+		}
+		return result>0;
 	}
 
 	public List<Info> getInfoByRange(Integer start, Integer end) {
@@ -217,7 +240,14 @@ public class InfoServiceImpl implements InfoService {
 		// 2.查询到最火的数据后，再 union 其他数据，按时间倒叙，新的在上面，且数据的ID不等于最火数据的Id（因为已经查出来放在了最前面）
 		// 3.获得 start ~ end 的数据 ，以上皆为一条sql完成
 		// 4.进行异常捕获，不做任何处理，失败了返回null,成功返回 infos
-		return null;
+		try {
+			infos=infoMapper.getInfoByRange(start,end);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			LogManager.getLogger().debug("评论失败！");
+			e.printStackTrace();
+		}
+		return infos;
 	}
 
 	@Override
@@ -227,6 +257,17 @@ public class InfoServiceImpl implements InfoService {
 		// 1.获取所有评论信息按时间倒叙返回，最早发表的评论在最前面
 		// 2.获得start ~ end 的数据 ，以上皆为一条sql完成
 		// 3.进行异常捕获，不做任何处理，失败了返回null,成功返回 comments
+		try {
+			comments=infoMapper.getCommentByRange(infoId,start,end);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return comments;
+	}
+	
+	public List<Info> getThemeInfoByRange(Integer themeId,Integer start, Integer end) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

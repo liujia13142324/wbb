@@ -7,7 +7,6 @@ public class Info {
 	private String openid ;
 	private Integer themeId;
 	private Integer infoId 	 ;
-	private String  infoContent ;
 	private Date publishTime ;
 	private Integer commentCount;
 	
@@ -15,33 +14,20 @@ public class Info {
 	private List<LikeInfo> likeinfo;
 	@Override
 	public String toString() {
-		return "Info [openid=" + openid + ", themeId=" + themeId + ", infoId=" + infoId +  ", infoContent=" + infoContent + ", publishTime=" + publishTime + ", imgs=" + imgs + ", likeinfo="
+		return "Info [openid=" + openid + ", themeId=" + themeId + ", infoId=" + infoId  + ", publishTime=" + publishTime + ", imgs=" + imgs + ", likeinfo="
 				+ likeinfo +", commentCount="+commentCount+ "]";
 	}
 
-	public Info() {
-		// TODO Auto-generated constructor stub
-	}
 	public Info(String openid, Integer themeId, Integer infoId,  String infoContent, Date publishTime,
 			Integer commentCount, List<Image> imgs, List<LikeInfo> likeinfo) {
 		super();
 		this.openid = openid;
 		this.themeId = themeId;
 		this.infoId = infoId;
-		this.infoContent = infoContent;
 		this.publishTime = publishTime;
 		this.commentCount = commentCount;
 		this.imgs = imgs;
 		this.likeinfo = likeinfo;
-	}
-	
-	
-
-	public Info(String openid, Integer themeId, String infoContent) {
-		super();
-		this.openid = openid;
-		this.themeId = themeId;
-		this.infoContent = infoContent;
 	}
 
 	public Integer getCommentCount() {
@@ -52,15 +38,12 @@ public class Info {
 		this.commentCount = commentCount;
 	}
 
-	
 	public String getOpenid() {
 		return openid;
 	}
-
 	public void setOpenid(String openid) {
 		this.openid = openid;
 	}
-
 	public Integer getThemeId() {
 		return themeId;
 	}
@@ -72,12 +55,6 @@ public class Info {
 	}
 	public void setInfoId(Integer infoId) {
 		this.infoId = infoId;
-	}
-	public String getInfoContent() {
-		return infoContent;
-	}
-	public void setInfoContent(String infoContent) {
-		this.infoContent = infoContent;
 	}
 	public Date getPublishTime() {
 		return publishTime;
