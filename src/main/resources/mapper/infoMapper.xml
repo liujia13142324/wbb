@@ -86,23 +86,4 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	
 </mapper>
-=======
-	<insert id="addLikeInfo" parameterType="LikeInfo">
-		insert into likeInfo(openId,infoId,likeStatus) values(#{openId},${infoId},${likeStatus})
-	</insert>
-	
-	<delete id="deleteLikeInfo" parameterType="LikeInfo">
-		delete from LikeInfo where openId=#{openId} and infoId=${infoId}
-	</delete>
-	
-	<select id="getCommentByRange" parameterType="Integer" resultType="Comment">
-		select openId,infoId,commentContent,publishDate from comment where infoId=#{infoId} order by publishDate DESC limit #{start},#{end}  
-	</select>
-	
-	<select id="getInfoByRange" parameterType="Integer" resultType="Info">
-		(select openId,themeId,infoId,infoContent,publishTime from info where openId =(
-			select openId,max(commentCount+likeInfo) from comment,likeInfo where comment.openid=linkeinfo.openid))
-			union(select openId,themeId,infoId,infoContent,publishTime from info order by publishTime DESC)
-	</select>
-</mapper> 
->>>>>>> branch 'master' of git@github.com:liujia13142324/wbb.git
+
