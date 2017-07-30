@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper  namespace="com.l.wbb.mapper.GoodsMapper">
+	<select id="getCategory" resultType="Category">
+		select categoryId,name from category
+	</select>
+	
+	<select id="getGoodsByRange" parameterType="Integer" resultType="Goods">
+		select openId,categoryId,goodsId,goodsTitle,goodsIntroduction,price,publishTime,imgId,tips from goods order by publishDate DESC limit #{start},#{end} 
+	</select>
+	
+	<select id="getCommentByRange" parameterType="Integer">
+		select openId,goodsId,commentContent,publishDate from goodsComment where goodsId=#{goodsId} order by publishDate DESC limit #{start},#{end} 
+	</select>
+	
+	<select id="getCategoryGoodsByRange" parameterType="Integer">
+		select openId,categoryId,goodsId,goodsTitle,goodsIntroduction,price,publishTime,imgId,tips from goods where categoryId=#{categoryId} order by publishDate DESC limit #{start},#{end}
+	</select>
+	
+	<select id="getGoodsBySearch" parameterType="String">
+		select openId,categoryId,goodsId,goodsTitle,goodsIntroduction,price,publishTime,imgId,tips from goods where goodsTitle like %#{searchCondition}% order by publishDate DESC
+	</select>
+	
+	<select id="getUserHistory" parameterType="Integer">
+		select openId,categoryId,goodsId,goodsTitle,goodsIntroduction,price,publishTime,imgId,tips from goods where openId=#{openId} order by publishDate DESC
+	</select>
+	 
+	<select id="getSubImage" parameterType="Integer">
+		select imgId,imgPath from mainImage where imgId=#{imgId}
+	</select>
+	
+	<insert id="publishComent" parameterType="GoodsComment">
+		insert into GoodsComment(openId,goodsId,commentContent,publishDate) values (#{openId},#{goodsId},#{commentContent},#{publishDate})
+	</insert>
+</mapper>

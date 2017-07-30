@@ -1,15 +1,18 @@
 package com.l.wbb.mapper;
 
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
-import com.l.wbb.bean.Comment;
-import com.l.wbb.bean.LikeInfo;
 
+import org.apache.ibatis.annotations.Param;
+
+import com.l.wbb.bean.Comment;
 import com.l.wbb.bean.Image;
 import com.l.wbb.bean.Info;
+import com.l.wbb.bean.LikeInfo;
 import com.l.wbb.bean.Theme;
 
+
 public interface InfoMapper {
+
 
 	List<Theme> getAllTheme();
 
@@ -30,4 +33,5 @@ public interface InfoMapper {
 	List<Comment> getCommentByRange(@Param("infoId")Integer infoId,@Param("start") Integer start,@Param("end") Integer end);
 
 	List<Info> getInfoByRange(Integer start, Integer end);
+
 }

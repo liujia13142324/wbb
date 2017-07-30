@@ -1,7 +1,17 @@
 $(".imgList img").attr("height",$(".imgList img")[0].width)
 $(".x_left").css("line-height",$(".x_right").css("height"))
 
-
+// 旋转自适应
+/*function orientationChange(){
+		$(".imgList img").attr("height",$(".imgList img")[0].width)
+}
+addEventListener('load', function(){
+    orientationChange();
+    window.onorientationchange = orientationChange;
+    $("comment_text").keyup(function(){
+    	
+    })
+});
 var bottom_obj;
 var inner_obj;
 var data;
@@ -24,7 +34,7 @@ function addData(){
 	inner_obj.innerHTML=str;
 	bottom_obj.style.display="none";	
 }
-
+*/
 function clickLike(obj){
 	if($(obj).attr("class").indexOf("fa-heart-o")>0){
 		$(obj).removeClass("fa-heart-o").addClass("fa-heart");

@@ -21,13 +21,27 @@
 <link href="css/infoCenter.css" rel="stylesheet">
 <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
 <link rel="stylesheet" href="easyui/css/easyui.css">
+<link rel="stylesheet" href="css/pullToRefresh.css"/>
+<script src="js/iscroll.js"></script>
+<script src="js/pullToRefresh.js"></script>
 <title>发布广场</title>
 </head>
-
+<style>
+body, html {
+	padding: 0;
+	margin: 0;
+	height: 100%;
+	font-family: Arial, Helvetica, sans-serif;
+}
+#inner_div{
+	position: relative;
+	height:100%;
+}
+</style>
 <body>
-	<div class="header">发布广场</div>
-	
-    	<div id="inner_div">
+   	<div id="inner_div">
+    	<ul>
+    	<div class="header">发布广场</div>
 			<div class="info_div">
 				<div class="user-heading">
 					<div class="headImg">
@@ -144,24 +158,26 @@
 					<div class="_clear"></div>
 				</div>
 			</div>
-		</div>
+		</ul>
+	</div>
+		
 		
 			
+	
+	<!-- <div id="bottom_div">
+       	<p>加载中,请稍后.....</p>
+       	<p>本页面由 温柔的太阳君 开发</p>
+       	<p>微信a524294514</p>
+    </div> -->
 		
-		<div id="bottom_div">
-        	<p>加载中,请稍后.....</p>
-        	<p>本页面由 温柔的太阳君 开发</p>
-        	<p>微信a524294514</p>
-        </div>
-		
-		
+	<!-- 	
 	<div id="data" >
     	<div class="info_div">
 			<div class="user-heading">
 				<div class="headImg">
 					<img style="width:100%;height:100%;"  src="img/QQ.png"/>
 				</div>
-				<div class="otherUserInfo">						<!-- fa fa-venus -->
+				<div class="otherUserInfo">						fa fa-venus
 					<p><span>温柔的太阳君</span> &nbsp;<span class="fa fa-mars sex male"></span></p>
 					<p class="publishTime">刚刚</p>
 				</div>	
@@ -178,7 +194,7 @@
 					<span><span>0</span>评论</span>
 				</div>
 				<div class="x_right">
-					<!-- fa fa-heart -->
+					fa fa-heart
 					<i class="fa fa-heart like" aria-hidden="true"></i> &nbsp;
 					<i class="fa fa-commenting-o comment" aria-hidden="true"></i>
 				</div>
@@ -186,6 +202,8 @@
 			</div>
 		</div>
     </div>
+		
+		 -->
 		
 		<div id="right_corner_menu" class="dropup">
 			<a href="javascript:void(0);" id="menu_a"><i class="fa fa-bars"   aria-hidden="true"></i></a>
@@ -208,6 +226,7 @@
 				</div>
 			</div>
 		</div>
+		
 </body>
  <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -220,12 +239,34 @@
    <!--  <script src="js/docs.min.js"></script> -->
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="js/ie10-viewport-bug-workaround.js"></script>
-    <script type="text/javascript" src="js/picturefill.min.js"></script>
     <script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="js/basic.js"></script>
     <script type="text/javascript" src="js/info.js"></script>
     <script>
-    	setTooltip("menu_category","category_content");
+    	setTooltip("menu_category","category_content"); 
+    	
+    	refresher.init({
+    		id:"inner_div",
+    		pullDownAction:Refresh,
+    		pullUpAction:Load
+    	});
+    	
+    	
+    	function Refresh() {
+    		console.info("up");
+    		setTimeout(function () {	// <-- Simulate network congestion, remove setTimeout from production!
+    			myScroll.refresh();/****remember to refresh when you action was completed！！！****/
+    		}, 1000);
+    	}
+    	function Load() {
+    		console.info("down ");
+    		setTimeout(function () {// <-- Simulate network congestion, remove setTimeout from production!
+    			myScroll.refresh();/****remember to refresh when you action was completed！！！****/
+    		}, 1000);
+
+    	}
+    	
+    	
     </script>
     
 </html>
