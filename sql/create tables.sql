@@ -141,7 +141,7 @@ create table goodsComment(
 	goodsId integer ,
 	commentContent varchar(200) check (commentContent>30),
 	publishDate date,
-    primary key(openId,goodsId),
+    primary key(openId,goodsId,publishDate),
 	FOREIGN KEY (goodsId) REFERENCES goods (goodsId),
     FOREIGN KEY (openId) REFERENCES user (openId)
 )

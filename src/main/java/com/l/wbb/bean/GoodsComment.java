@@ -14,6 +14,9 @@ public class GoodsComment {
 		this.commentContent = commentContent;
 		this.publishDate = publishDate;
 	}
+	public GoodsComment() {
+		// TODO Auto-generated constructor stub
+	}
 	@Override
 	public String toString() {
 		return "Comment [openId=" + openId + ", goodsId=" + goodsId + ", commentContent=" + commentContent

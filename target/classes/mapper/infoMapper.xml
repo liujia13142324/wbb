@@ -7,24 +7,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper  namespace="com.l.wbb.mapper.InfoMapper">
 	<!-- 编写sql时 切勿在查询的时候以 * 代替所有列；插入时，也要写上插入字段！-->
 	<insert id="publishComent" parameterType="Comment">
-		insert into comment values(${openId},${infoId},${commentContent},${publishDate})
+		insert into comment(openId,infoId,commentContent,publishDate) values(#{openId},${infoId},#{commentContent},#{publishDate})
 	</insert>
 	
 	<insert id="addLikeInfo" parameterType="LikeInfo">
-		insert into likeInfo values(${openId},${infoId},${likeStatus})
+		insert into likeInfo(openId,infoId,likeStatus) values(#{openId},${infoId},${likeStatus})
 	</insert>
 	
 	<delete id="deleteLikeInfo" parameterType="LikeInfo">
-		delete from LikeInfo where openid=${openid} and infoid=${infoid}
+		delete from LikeInfo where openId=#{openId} and infoId=${infoId}
 	</delete>
 	
-	<select id="getCommentByRange" parameterType="Integer">
-		select openId,infoId,commentContent,publishDate from comment where infoid=#{infoid} order by publishDate desc limit #{start},#{end}  
+	<select id="getCommentByRange" parameterType="Integer" resultType="Comment">
+		select openId,infoId,commentContent,publishDate from comment where infoId=#{infoId} order by publishDate DESC limit #{start},#{end}  
 	</select>
 	
-	<select id="getInfoByRange" parameterType="Integer" resultType="com.l.wbb.bean.Info">
-		(select openid,themeid,infoid,infoContent,publishTime from info where openid =(
-			select openid,max(commentCount+likeinfo) from comment,likeinfo where comment.openid=linkeinfo.openid))
-			union(select openid,themeid,infoid,infoContent,publishTime from info )
+
+	<select id="getInfoByRange" parameterType="Integer" resultType="Info">
+		(select openId,themeId,infoId,infoContent,publishTime from info where openId =(
+			select openId,max(commentCount+likeInfo) from comment,likeInfo where comment.openid=linkeinfo.openid))
+			union(select openId,themeId,infoId,infoContent,publishTime from info order by publishTime DESC)
 	</select>
 </mapper> 

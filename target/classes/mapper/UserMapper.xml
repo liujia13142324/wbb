@@ -6,16 +6,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper  namespace="com.l.wbb.mapper.UserMapper">
 	<!-- 编写sql时 切勿在查询的时候以 * 代替所有列；插入时，也要写上插入字段！-->
-	<select id="selectUser" parameterType="String">
-		select openid,nickname,sex,headimgurl from user where openid=${openid}
+	<select id="selectUser" parameterType="String" resultType="User">
+		select openid,nickname,sex,headimgurl from user where openid=#{openid}
 	</select>
 	
 	<insert id="insertUser" parameterType="User">
-		insert into user(openid,nickname,sex,headimgurl) values(${openid},${nickname},${sex},${headimgurl})
+		insert into user(openid,nickname,sex,headimgurl) values(#{openid},#{nickname},${sex},#{headimgurl})
 	</insert>
 	
 	<update id="updateUser" parameterType="User">
-		update user set nickname=${nickname},sex=${sex},headimgurl=${headimgurl}
+		update user set nickname=#{nickname},sex=${sex},headimgurl=#{headimgurl} where openid=#{openid}
 	</update>
 	
 </mapper>
