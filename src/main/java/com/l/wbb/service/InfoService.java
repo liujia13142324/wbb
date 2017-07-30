@@ -14,7 +14,7 @@ public interface InfoService {
 
 	List<Theme> getAllTheme();
 
-	List<Info> getUserHistory(Integer openid);
+	List<Info> getUserHistory(String openid);
 
 	List<Comment> getCommentsOfInfo(Integer infoId);
 

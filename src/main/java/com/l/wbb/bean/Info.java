@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Info {
-	private String openId ;
+	private String openid ;
 	private Integer themeId;
 	private Integer infoId 	 ;
 	private String  infoContent ;
@@ -15,14 +15,17 @@ public class Info {
 	private List<LikeInfo> likeinfo;
 	@Override
 	public String toString() {
-		return "Info [openId=" + openId + ", themeId=" + themeId + ", infoId=" + infoId +  ", infoContent=" + infoContent + ", publishTime=" + publishTime + ", imgs=" + imgs + ", likeinfo="
+		return "Info [openid=" + openid + ", themeId=" + themeId + ", infoId=" + infoId +  ", infoContent=" + infoContent + ", publishTime=" + publishTime + ", imgs=" + imgs + ", likeinfo="
 				+ likeinfo +", commentCount="+commentCount+ "]";
 	}
 
-	public Info(String openId, Integer themeId, Integer infoId,  String infoContent, Date publishTime,
+	public Info() {
+		// TODO Auto-generated constructor stub
+	}
+	public Info(String openid, Integer themeId, Integer infoId,  String infoContent, Date publishTime,
 			Integer commentCount, List<Image> imgs, List<LikeInfo> likeinfo) {
 		super();
-		this.openId = openId;
+		this.openid = openid;
 		this.themeId = themeId;
 		this.infoId = infoId;
 		this.infoContent = infoContent;
@@ -30,6 +33,15 @@ public class Info {
 		this.commentCount = commentCount;
 		this.imgs = imgs;
 		this.likeinfo = likeinfo;
+	}
+	
+	
+
+	public Info(String openid, Integer themeId, String infoContent) {
+		super();
+		this.openid = openid;
+		this.themeId = themeId;
+		this.infoContent = infoContent;
 	}
 
 	public Integer getCommentCount() {
@@ -40,12 +52,15 @@ public class Info {
 		this.commentCount = commentCount;
 	}
 
-	public String getOpenId() {
-		return openId;
+	
+	public String getOpenid() {
+		return openid;
 	}
-	public void setOpenId(String openId) {
-		this.openId = openId;
+
+	public void setOpenid(String openid) {
+		this.openid = openid;
 	}
+
 	public Integer getThemeId() {
 		return themeId;
 	}
