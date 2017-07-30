@@ -8,27 +8,52 @@ public class Info {
 	private Integer themeId;
 	private Integer infoId 	 ;
 	private Date publishTime ;
+	public String infoContent;
 	private Integer commentCount;
 	
 	private List<Image> imgs;
 	private List<LikeInfo> likeinfo;
+	
 	@Override
 	public String toString() {
-		return "Info [openid=" + openid + ", themeId=" + themeId + ", infoId=" + infoId  + ", publishTime=" + publishTime + ", imgs=" + imgs + ", likeinfo="
-				+ likeinfo +", commentCount="+commentCount+ "]";
+		return "Info [openid=" + openid + ", themeId=" + themeId + ", infoId=" + infoId + ", publishTime=" + publishTime
+				+ ", infoContent=" + infoContent + ", commentCount=" + commentCount + ", imgs=" + imgs + ", likeinfo="
+				+ likeinfo + "]";
 	}
 
-	public Info(String openid, Integer themeId, Integer infoId,  String infoContent, Date publishTime,
+
+	public Info(String openid, Integer themeId, Integer infoId, Date publishTime, String infoContent,
 			Integer commentCount, List<Image> imgs, List<LikeInfo> likeinfo) {
 		super();
 		this.openid = openid;
 		this.themeId = themeId;
 		this.infoId = infoId;
 		this.publishTime = publishTime;
+		this.infoContent = infoContent;
 		this.commentCount = commentCount;
 		this.imgs = imgs;
 		this.likeinfo = likeinfo;
 	}
+
+	
+
+	public Info(String openid, Integer themeId, String infoContent) {
+		super();
+		this.openid = openid;
+		this.themeId = themeId;
+		this.infoContent = infoContent;
+	}
+
+
+	public String getInfoContent() {
+		return infoContent;
+	}
+
+
+	public void setInfoContent(String infoContent) {
+		this.infoContent = infoContent;
+	}
+
 
 	public Integer getCommentCount() {
 		return commentCount;
