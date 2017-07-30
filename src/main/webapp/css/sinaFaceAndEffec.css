@@ -12,7 +12,7 @@
 }
 #emotions a{
 	color: #9ABBC8;
-	padding:2px 7px;
+	padding:3px 10px;
 	text-decoration:none;
 }
 #emotions img{
@@ -34,22 +34,23 @@
 }
 #emotions .categorys{
 	color:#ccc;
-	height:26px;
 	color: #9ABBC8;
 	overflow:hidden;
+	border-bottom: 2px solid #e8e8e8;
 }
 #emotions .categorys a{
 	border: 2px solid #e8e8e8;
 	border-right:none;
 	display: inline-block;
+    border-bottom: none;
+    padding-bottom: 0;
 }
 #emotions .categorys a:hover{
-	text-decoration:underline;
+	background: #F0F0F0;
 }
 #emotions .categorys a.current{
 	cursor: default;
 	border-bottom:none;
-	border-bottom: 2px solid #99cc66;
 	background: #F0F0F0;
 }
 #emotions .container{
@@ -88,10 +89,13 @@
 #emotions .page a:hover{
 	background-color:#e7e7e7;
 }
-@media screen and (min-width:400px){
+@media screen and (min-width:300px){
 	#emotions{
-		width:150px;
+		width:290px;
 	}
+	 #emotions .container{
+	max-height: 125px;
+	} 
 }
 
 @media screen and (min-width:1200px){
@@ -101,4 +105,7 @@
 }
 #comment {
 	font-size: 23px;
+}
+#emotions .categorys a:last-child{
+	border-right:2px solid #e8e8e8;
 }

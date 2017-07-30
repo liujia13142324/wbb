@@ -1,4 +1,4 @@
-package com.yc.conn.test;
+package com.l.wbb.test;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -13,15 +13,16 @@ import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-//@ContextConfiguration(locations={"classpath:spring.xml", "classpath:spring-mvc.xml"})
 
-@ContextConfiguration("classpath:spring.xml")
+
+//@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={"classpath:spring.xml", "classpath:spring-mvc.xml"})
+//@ContextConfiguration("classpath:spring.xml")
 public class ConnTest {
 	
 	@Autowired
@@ -32,6 +33,8 @@ public class ConnTest {
 	
 	@Test
 	public void testConn() {
+		ApplicationContext cxt = new ClassPathXmlApplicationContext("spring.xml");
+		dataSource = (DataSource) cxt.getBean("dataSource");
 		Connection con = null;
 		try {
 			con = dataSource.getConnection();

@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 
-<mapper  namespace="com.l.wbb.mapper.UserMapper">
+<mapper  namespace="com.l.wbb.mapper.InfoMapper">
 	<!-- 编写sql时 切勿在查询的时候以 * 代替所有列；插入时，也要写上插入字段！-->
 	<insert id="publishComent" parameterType="Comment">
 		insert into comment values(${openId},${infoId},${commentContent},${publishDate})
@@ -22,7 +22,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select openId,infoId,commentContent,publishDate from comment where infoid=#{infoid} order by publishDate desc limit #{start},#{end}  
 	</select>
 	
-	<select id="getInfoByRange" parameterType="Integer" resultType="Info">
+	<select id="getInfoByRange" parameterType="Integer" resultType="com.l.wbb.bean.Info">
 		(select openid,themeid,infoid,infoContent,publishTime from info where openid =(
 			select openid,max(commentCount+likeinfo) from comment,likeinfo where comment.openid=linkeinfo.openid))
 			union(select openid,themeid,infoid,infoContent,publishTime from info )

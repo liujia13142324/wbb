@@ -7,8 +7,10 @@ public class Comment {
 	private Integer infoId;
 	private String commentContent;
 	private Date publishDate;
+	
+	public Comment() {
+	}
 	public Comment(String openId, Integer infoId, String commentContent, Date publishDate) {
-		super();
 		this.openId = openId;
 		this.infoId = infoId;
 		this.commentContent = commentContent;

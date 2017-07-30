@@ -2,13 +2,6 @@
 	width: 100%;
 }
 
-.user-heading {
-	float: left;
-	padding: 0px;
-	background-color: white;
-	border-bottom: 1px solid #ddd;
-}
-
 .user-heading div {
 	float: left;
 	margin: 10px;
@@ -29,7 +22,6 @@
 .otherInfo {
 	width: 70%;
 }
-
 .commentContent {
 	clear: both;
 }

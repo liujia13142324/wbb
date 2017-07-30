@@ -10,7 +10,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <base href="/wbb/">
-<title>商品详情</title>
+<title>宝贝详情</title>
 
 <link href="css/basic.css" rel="stylesheet">
 <link href="css/lib.css" rel="stylesheet">
@@ -25,7 +25,7 @@
 <link href="lightGallery/css/lightgallery.css" rel="stylesheet">
 <link rel="stylesheet" href="css/idangerous.swiper.css">
 <script src="js/idangerous.swiper.js"></script>
-<title>商品详情</title>
+<title>宝贝详情</title>
 </head>
 <style>
 #right_corner_menu{
@@ -118,7 +118,7 @@
 <body>
 <div id="inner_div">
 	<ul>
-		<div class="header">发布详情</div>
+		<div class="header">宝贝详情</div>
 		
 		<div class="goodsDetail_div" >
 			<div class="swiper-container">
@@ -183,8 +183,13 @@
 		) */
 // 移动设备的比例一般为 0.56 ， pc端为0.75
 if((screen.width/screen.height) <0.64){
+	// screen.width/screen.height = realHeight/realWidth
 	$(".swiper-container").css("height",(screen.width/screen.height)*screen.width);
 	$(".swiper-container").css("width",window.innerWidth);
+}else{
+	// screen.width/screen.height = realWidth/realHeight
+	$(".swiper-container").css("height",screen.width*0.5/(screen.width/screen.height));
+	$(".swiper-container").css("width",window.innerWidth*0.5);
 }
 
  var mySwiper = new Swiper('.swiper-container',{

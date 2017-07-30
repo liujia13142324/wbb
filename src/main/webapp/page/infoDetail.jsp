@@ -21,6 +21,7 @@
 <link rel="stylesheet" href="css/menu.css">
 <link rel="stylesheet" href="css/pullToRefresh.css"/>
 <link rel="stylesheet" href="css/comment.css"/>
+<link rel="stylesheet" href="css/jquery.sinaEmotion.css"/>
 <title>发布详情</title>
 </head>
 <style>
@@ -29,6 +30,9 @@
 }
 #emotions #prev, #emotions #next{
 	height:auto;
+}
+.sina-emotion{
+width: 18px;
 }
 </style>
 <body>
@@ -46,7 +50,7 @@
 		</div>	
 	</div>
 	<div class="info_body">
-		<p class="info_content">你好吗</p>
+		<p class="info_content">你好吗[坏笑]</p>
 		<div class="imgList">
 			<img/><img /><img /><img /><img /><img />
 		</div>
@@ -73,7 +77,55 @@
 			<div class="otherInfo">						
 				<p><span>温柔的太阳君</span> (1楼)</p>
 				<p class="publishTime">刚刚</p>
-				<p class="commentContent">沙发~~</p>
+				<p class="commentContent">沙发~~ [坏笑]</p>
+			</div>	
+		</div>
+		<div style="clear:both;"></div>
+	</div><div class="comment_div">
+		<div class="user-heading">
+			<div class="headImg">
+				<img style="width:100%;height:100%;"  src="img/QQ.png"/>
+			</div>
+			<div class="otherInfo">						
+				<p><span>温柔的太阳君</span> (1楼)</p>
+				<p class="publishTime">刚刚</p>
+				<p class="commentContent">沙发~~ [坏笑]</p>
+			</div>	
+		</div>
+		<div style="clear:both;"></div>
+	</div><div class="comment_div">
+		<div class="user-heading">
+			<div class="headImg">
+				<img style="width:100%;height:100%;"  src="img/QQ.png"/>
+			</div>
+			<div class="otherInfo">						
+				<p><span>温柔的太阳君</span> (1楼)</p>
+				<p class="publishTime">刚刚</p>
+				<p class="commentContent">沙发~~ [坏笑]</p>
+			</div>	
+		</div>
+		<div style="clear:both;"></div>
+	</div><div class="comment_div">
+		<div class="user-heading">
+			<div class="headImg">
+				<img style="width:100%;height:100%;"  src="img/QQ.png"/>
+			</div>
+			<div class="otherInfo">						
+				<p><span>温柔的太阳君</span> (1楼)</p>
+				<p class="publishTime">刚刚</p>
+				<p class="commentContent">沙发~~ [坏笑]</p>
+			</div>	
+		</div>
+		<div style="clear:both;"></div>
+	</div><div class="comment_div">
+		<div class="user-heading">
+			<div class="headImg">
+				<img style="width:100%;height:100%;"  src="img/QQ.png"/>
+			</div>
+			<div class="otherInfo">						
+				<p><span>温柔的太阳君</span> (1楼)</p>
+				<p class="publishTime">刚刚</p>
+				<p class="commentContent">沙发~~ [坏笑]</p>
 			</div>	
 		</div>
 		<div style="clear:both;"></div>
@@ -109,9 +161,11 @@
 	<script src="js/pullToRefresh.js"></script>
 	<script src="js/reflush.js"></script>
 	 <script type="text/javascript" src="js/comment.js"></script>
+	 <script type="text/javascript" src="js/jquery.sinaEmotion.js"></script>
     <script type="text/javascript">
     	$('.face-icon').SinaEmotion($('.text'),0);
-    	
+    	$(".commentContent").parseEmotion();
+    	$(".info_content").parseEmotion();
     	/* 
     	$("textarea").keydown(function(){
     		event.preventDefault();
@@ -119,6 +173,5 @@
     			alert("hello world")
     		}
     	}) */
-    	
     </script>
 </html>

@@ -3,11 +3,13 @@
     -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
-* {
+/* * 容器大小不会因为这个设置而改变，导致引入了这个样式导致表情框太小，
+	但是infoCenter 是基于它布局的，所以，把这段代码就放到infoCenter
+ {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-}
+} */
 body {
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 14px;
@@ -16,7 +18,7 @@ body {
     background-color: #fff;
 }
 p {
-    margin: 0 0 10px;
+    margin: 0 0 5px;
 }
 img {
     border: 0;

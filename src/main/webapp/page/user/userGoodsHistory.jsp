@@ -7,7 +7,7 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1 , user-scalable=no">
 <base href="/wbb/">
-<title>个人发布历史</title>
+<title>历史发布</title>
 </head>
 <link href="css/basic.css" rel="stylesheet">
 <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
@@ -27,7 +27,17 @@ box-sizing: content-box;
 <body>
 <div id="inner_div">
 <ul style="background:#efefef">
-	<div class="header">个人发布历史</div>
+	<div class="header">历史发布</div>
+	<div class="tool_div">
+		<span class="select_span">
+			<select>
+				<option>全部</option>
+			</select><i class="fa fa-angle-down" style="color:#999;" aria-hidden="true"></i>
+		</span>
+		<span class="search_span">
+			<input type="text"/><i class="fa fa-search" aria-hidden="true"></i>
+		</span>
+	</div>
 	
 	<div id="goodsList" class="dataList">
 		<div class="goods_div">

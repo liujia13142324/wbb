@@ -126,7 +126,12 @@ var m = Math,
 
 			// Events
 			onRefresh: null,
-			onBeforeScrollStart: function (e) { e.preventDefault(); },
+			onBeforeScrollStart: function (e) {
+				var target = e.target;
+				while (target.nodeType != 1) target = target.parentNode;
+				if (target.tagName != 'SELECT'&& target.tagName != 'INPUT' & target.tagName != 'TEXTAREA')
+					e.preventDefault();
+				},
 			onScrollStart: null,
 			onBeforeScrollMove: null,
 			onScrollMove: null,

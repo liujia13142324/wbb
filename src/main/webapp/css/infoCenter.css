@@ -45,7 +45,7 @@ body{
 	float:left;
 	padding:0px;
 	background-color: white;
-	border-bottom:1px solid #ddd;
+/* 	border-bottom:1px solid #ddd; */
 }
 
 .user-heading div{
@@ -62,6 +62,8 @@ body{
 	width:100%;
 }
 .otherUserInfo{
+}
+.info_content{
 }
 .sex{
 	width:16px;
@@ -92,26 +94,28 @@ body{
     width:100%;
 }
 .info_body{
-	    padding: 15px;
+	    padding-left: 10px;
 	    min-height: 100px;
 	    clear: both;
-	    width:98%;
+	    width:100%;
 }
 .info_body{
 	font-size:16px;
 }
-.imgList img{
-	margin-right:4px;
-	margin-bottom:4px;
-	float:left;
-	width:31%;
+
+.imgs{
+	background:no-repeat center center / cover;
 }
-#imgList img{
+.info_body .imgs:last-child{
+	margin-right:0px;
+}
+
+/* #imgList img{
 	margin-right:4px;
 	margin-bottom:4px;
 	float:left;
 	width:23%;
-}
+} */
 .img_div{
 	margin-right:4px;
 	margin-bottom:4px;
@@ -146,17 +150,63 @@ body{
 	font-size:12px;
 	padding-left:1px;
 }
-.otherUserInfo p{
-	margin-bottom:6px;
+.otherUserInfo p:first-child,.otherInfo p:first-child{
+	margin-top:5px;
 }
 
 
-@media screen and (min-width:1200px){
-	   .imgList img , .img_div{
+.imgMoreThanTwo{
+	margin-right:4px;
+	margin-bottom:4px;
+	float:left;
+	width:32%;
+}
+.imgMoreThanOne{
+	margin-right:4px;
+	margin-bottom:4px;
+	float:left;
+	width:48%;
+}
+.onlyImg{
+	max-height:200px;
+}
+@media screen and (min-width:760px){
+	  .imgList .imgs , .img_div{
 		margin-right:4px;
 		margin-bottom:4px;
 		float:left;
 		width:150px;
 		height:150px;
 	}
+}
+
+
+@-webkit-keyframes hpop { /* Safari 和 Chrome */ 
+    0% {-webkit-transform: scale(1);-webkit-transform-origin: 50% 65%;}
+    10% {-webkit-transform: scale(.8);-webkit-transform-origin: 50% 65%;}
+    50%{-webkit-transform:scale(1.2);-webkit-transform-origin:50% 65%;}
+    100%{-webkit-transform: scale(1.0);-webkit-transform-origin:50% 65%;}
+}
+.heartpop{
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-duration: .32s;
+    -webkit-animation-fill-mode: both;
+}
+.heartpop{ -webkit-animation-name: hpop; }
+/**渐入的css动画**/
+@-webkit-+ fshow {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+@-webkit-keyframes fhide {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
 }
