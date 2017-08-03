@@ -20,7 +20,7 @@ public interface GoodsService {
 
 	List<Goods> getCategoryGoodsByRange(Integer categoryId, Integer start, Integer end);
 
-	List<Goods> getUserHistory(Integer openid);
+	List<Goods> getUserHistory(String openid);
 
 	List<GoodsImage> getSubImage(Integer imgId);
 

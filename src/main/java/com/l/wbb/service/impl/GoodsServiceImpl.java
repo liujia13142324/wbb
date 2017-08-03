@@ -100,7 +100,7 @@ public class GoodsServiceImpl implements GoodsService{
 	}
 
 	@Override
-	public List<Goods> getUserHistory(Integer openid) {
+	public List<Goods> getUserHistory(String openid) {
 		List<Goods> historyGoods=new ArrayList<Goods>();
 		// TODO Auto-generated method stub
 		try {
