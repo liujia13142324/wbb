@@ -48,7 +48,7 @@ public class GoodsHandler {
 	}
 
 	@RequestMapping("/userHistory")
-	public String getUserInfo(Integer openid, HttpServletRequest request) {
+	public String getUserInfo(String openid, HttpServletRequest request) {
 		List<Goods> userHistory = goodsService.getUserHistory(openid);
 		request.setAttribute("userHistory", userHistory);
 		return "user/userGoodsHistory";

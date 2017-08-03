@@ -5,8 +5,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -102,7 +100,7 @@ public class GoodsServiceImpl implements GoodsService{
 	}
 
 	@Override
-	public List<Goods> getUserHistory(Integer openid) {
+	public List<Goods> getUserHistory(String openid) {
 		List<Goods> historyGoods=new ArrayList<Goods>();
 		// TODO Auto-generated method stub
 		try {
