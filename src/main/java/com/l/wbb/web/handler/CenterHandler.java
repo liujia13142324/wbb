@@ -24,6 +24,8 @@ public class CenterHandler {
 	
 	@RequestMapping("/enter")
 	public String getUserInfo(String code,HttpSession session){
+		
+		session.isNew();
 	
 		try {
 			User user = userService.findUser(code);

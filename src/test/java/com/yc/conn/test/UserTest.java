@@ -26,7 +26,7 @@ public class UserTest {
 		user.setOpenid("5fdjfdsjkfka");
 		user.setNickname("dfhff");
 		user.setSex(1);
-		user.setHeadimgurl("http://baidu.com");
+		user.setHeadimgurl("img/QQ.png");
 		userService.checkUser(user);
 	}
 }

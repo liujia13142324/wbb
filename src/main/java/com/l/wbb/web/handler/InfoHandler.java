@@ -29,6 +29,7 @@ public class InfoHandler {
 	public String enterInfoCenter(HttpServletRequest request,Integer themeId){
 		
 		List<Theme> themes = infoService.getAllTheme();
+		
 		List<Info> infos = null;
 		if(themeId == null){
 			// 大厅就是获得所有的分类，不需要在数据新建
