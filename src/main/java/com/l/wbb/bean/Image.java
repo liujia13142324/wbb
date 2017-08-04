@@ -8,6 +8,11 @@ public class Image {
 	public Image() {
 	}
 	
+	public Image(String imgPath) {
+		super();
+		this.imgPath = imgPath;
+	}
+
 	public Image(Integer infoId, String imgPath) {
 		super();
 		this.infoId = infoId;

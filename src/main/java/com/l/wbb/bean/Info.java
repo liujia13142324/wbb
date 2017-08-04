@@ -26,7 +26,9 @@ public class Info {
 	public Info() {
 	}
 	
-	public Info(String openId, Integer themeId, Integer infoId, String infoContent, Date publishTime,
+	
+
+	public Info(String openId, Integer themeId, Integer infoId, Date publishTime, String infoContent,
 			Integer commentCount, List<Image> imgs, List<LikeInfo> likeinfo) {
 		super();
 		this.openId = openId;
@@ -34,10 +36,23 @@ public class Info {
 		this.infoId = infoId;
 		this.infoContent = infoContent;
 		this.publishTime = publishTime;
+		this.infoContent = infoContent;
 		this.commentCount = commentCount;
 		this.imgs = imgs;
 		this.likeinfo = likeinfo;
 	}
+
+	
+
+	public Info(String openId, Integer themeId, String infoContent) {
+		super();
+		this.openId = openId;
+		this.themeId = themeId;
+		this.infoContent = infoContent;
+	}
+
+
+
 
 	public Integer getCommentCount() {
 		return commentCount;
@@ -59,6 +74,7 @@ public class Info {
 	public void setOpenId(String openId) {
 		this.openId = openId;
 	}
+
 	public Integer getThemeId() {
 		return themeId;
 	}

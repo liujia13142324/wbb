@@ -12,7 +12,6 @@ import com.l.wbb.bean.Theme;
 
 public interface InfoMapper {
 	List<Theme> getAllTheme();
-
 	int insertInfo(Info info);
 
 	int insertImage(List<Image> imgs);

@@ -6,6 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper  namespace="com.l.wbb.mapper.InfoMapper">
 	<!-- 编写sql时 切勿在查询的时候以 * 代替所有列；插入时，也要写上插入字段！-->
+	
 	<select id="getAllTheme" resultType="Theme">
 		select themeId,themeName from theme
 	</select>
@@ -73,9 +74,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select openId,infoId,commentContent,publishDate from comment where infoId=#{infoId} order by publishDate DESC limit #{start},#{end}  
 	</select>
 	
+	
 	<select id="getInfoByRange" parameterType="Integer" resultType="Info">
 		(select openId,themeId,infoId,infoContent,publishTime from info where openId =(
 			select openId,max(commentCount+likeInfo) from comment,likeInfo where comment.openid=linkeinfo.openid))
 			union(select openId,themeId,infoId,infoContent,publishTime from info order by publishTime DESC)
 	</select>
-</mapper> 
+	
+	
+</mapper>
+

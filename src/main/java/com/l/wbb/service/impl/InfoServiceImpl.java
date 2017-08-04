@@ -30,7 +30,7 @@ public class InfoServiceImpl implements InfoService {
 
 	@Autowired
 	private InfoMapper infoMapper;
-	
+
 	@Override
 	public List<Theme> getAllTheme() {
 		List<Theme> themes = new ArrayList<Theme>();
@@ -52,12 +52,22 @@ public class InfoServiceImpl implements InfoService {
 		return getInfoByRange(1,10);
 	}
 	
+	
+
+
 	@Override
 	public List<Info> getInfoByTheme(Integer themeId) {
-		// TODO 要求同上，多加一个条件查找当前主题的info
-		return getThemeInfoByRange(themeId,1,10);
-	}
 
+		List<Info> infos = new ArrayList<Info>();
+		try {
+			infos = infoMapper.getInfoByTheme(themeId);
+		} catch (Exception e) {
+			LogManager.getLogger().debug("获取主题内容失败！！！");
+			return null;
+		}
+		return infos;
+
+	}
 
 	@Override
 	public List<Info> getUserHistory(String openid) {
@@ -88,8 +98,7 @@ public class InfoServiceImpl implements InfoService {
 		return getCommentByRange(infoId, 1, 10);
 	}
 
-
-	private List<Image> uploadImg(Info info,MultipartHttpServletRequest request) {
+	private List<Image> uploadImg(Info info, MultipartHttpServletRequest request) {
 		List<Image> imgs = new ArrayList<Image>();
 		// TODO 1. 获取request中的所有图片的文件，按照 openid_infoId_fileName
 		// 进行命名，存储到服务器的upload文件夹
@@ -166,8 +175,10 @@ public class InfoServiceImpl implements InfoService {
 		return imgs;
 	}
 	
-	@Transactional  // 事务操作，不捕获异常，异常上抛
-	public boolean publishInfo(Info info,MultipartHttpServletRequest request) {
+	
+
+	@Transactional // 事务操作，不捕获异常，异常上抛
+	public boolean publishInfo(Info info, MultipartHttpServletRequest request) {
 		// TODO 1.将所有的图片文件进行存储
 		List<Image> imgs = uploadImg(info, request);
 		boolean t1 = false, t2 = false;
@@ -205,7 +216,7 @@ public class InfoServiceImpl implements InfoService {
 		return result>0;
 	}
 	/*lxd*/
-	@Override
+		
 	public boolean setLikeInfo(LikeInfo likeInfo , int setStatus) {
 		// TODO  // 1.判断setStatus字段
 				//  2. 如果status==1 则将 likeInfo 插入数据库
@@ -227,9 +238,12 @@ public class InfoServiceImpl implements InfoService {
 		}
 		return result>0;
 	}
+
+	
 	/*lxd*/
 	public List<Info> getInfoByRange(Integer start, Integer end){
 		List<Info> infos = new ArrayList<Info>();
+		
 			//TODO
 			//1.查出 commentCount + likeinfo 最多的数据 
 		    //2.查询到最火的数据后，再 union 其他数据，按时间倒叙，新的在上面，且数据的ID不等于最火数据的Id（因为已经查出来放在了最前面）
@@ -246,12 +260,12 @@ public class InfoServiceImpl implements InfoService {
 	}
 	/*lxd*/
 	@Override
-	public List<Comment> getCommentByRange(Integer infoId,Integer start, Integer end) {
+	public List<Comment> getCommentByRange(Integer infoId, Integer start, Integer end) {
 		List<Comment> comments = new ArrayList<Comment>();
-		// TODO 
-		//  1.获取所有评论信息按时间倒叙返回，最早发表的评论在最前面 
-		//  2.获得start ~ end 的数据 ，以上皆为一条sql完成
-		//  3.进行异常捕获，不做任何处理，失败了返回null,成功返回  comments  
+		// TODO
+		// 1.获取所有评论信息按时间倒叙返回，最早发表的评论在最前面
+		// 2.获得start ~ end 的数据 ，以上皆为一条sql完成
+		// 3.进行异常捕获，不做任何处理，失败了返回null,成功返回 comments
 		try {
 			comments=infoMapper.getCommentByRange(infoId,start,end);
 		} catch (Exception e) {
@@ -259,11 +273,14 @@ public class InfoServiceImpl implements InfoService {
 			e.printStackTrace();
 		}
 		return comments;
+		
 	}
+	
+	
 	
 	public List<Info> getThemeInfoByRange(Integer themeId,Integer start, Integer end) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 }
