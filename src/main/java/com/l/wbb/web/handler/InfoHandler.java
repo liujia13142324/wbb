@@ -49,7 +49,7 @@ public class InfoHandler {
 	}
 	
 	@RequestMapping("/userHistory")
-	public String getUserInfo(Integer openid , HttpServletRequest request){
+	public String getUserInfo(String openid , HttpServletRequest request){
 		List<Info> userHistory = infoService.getUserHistory(openid);
 		request.setAttribute("userHistory", userHistory);
 		return "user/userHistory";

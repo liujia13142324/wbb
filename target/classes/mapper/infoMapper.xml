@@ -6,6 +6,57 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper  namespace="com.l.wbb.mapper.InfoMapper">
 	<!-- 编写sql时 切勿在查询的时候以 * 代替所有列；插入时，也要写上插入字段！-->
+	<select id="getAllTheme" resultType="Theme">
+		select themeId,themeName from theme
+	</select>
+	
+	
+	<insert id="insertInfo" parameterType="Info" >
+		insert into info(openid,themeId,infoId,infoContent,publishTime) values(#{openid},#{themeId},nextval("infoId"),#{infoContent},now());
+	</insert>
+	
+	
+	<!-- 批量插入 -->
+	<insert id="insertImage" parameterType="Image">
+	    insert into image(infoId,imgPath) 
+	    <!-- 数据集的类型：array，list -->
+	    <foreach collection="list" item="image" separator="union">
+	        select #{image.infoId},#{image.imgPath} from dual
+	    </foreach>
+	</insert>
+	
+	
+	
+	<!-- resultMap接收结果集 -->
+	<select id="getUserHistory" parameterType="String" resultMap="UserInfoMap">
+	     select openid,themeId,infoId,infoContent,publishTime from info where openid = #{openid}
+	</select>
+	
+	<!-- type:处理结果最终类型               id：映射结果处理的名字 -->
+	<resultMap type="Info" id="UserInfoMap">
+	    <id property="infoId" column="infoId"/><!-- 传入的参数 -->
+	    <collection property="imgs" column="infoId" select="getImgByOpenId"/>
+	</resultMap>
+	
+	<select id="getImgByOpenId" parameterType="Integer" resultType="Image">
+	     select infoId,imgPath from image where infoId = #{infoId}
+	</select>
+	
+	
+	<!-- resultMap接收结果集 -->
+	<select id="getInfoByTheme" parameterType="Integer" resultMap="InfoMap">
+	     select openid,themeId,infoId,infoContent,publishTime from info where themeId=#{themeId}
+	</select>
+	<!-- type:处理结果最终类型               id：映射结果处理的名字 -->
+	<resultMap type="Info" id="InfoMap">
+	    <id property="infoId" column="infoId"/><!-- 传入的参数 -->
+	    <collection property="imgs" column="infoId" select="getImgByThemeId"/>
+	</resultMap>
+	
+	<select id="getImgByThemeId" parameterType="Integer" resultType="Image">
+	     select infoId,imgPath from image where infoId = #{infoId}
+	</select>
+	
 	<insert id="publishComent" parameterType="Comment">
 		insert into comment(commentId,openId,infoId,commentContent,publishDate) values(nextval("commentId"),#{openId},${infoId},#{commentContent},#{publishDate})
 	</insert>
