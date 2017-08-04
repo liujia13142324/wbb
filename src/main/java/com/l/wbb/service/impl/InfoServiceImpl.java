@@ -1,5 +1,6 @@
 package com.l.wbb.service.impl;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -135,7 +136,6 @@ public class InfoServiceImpl implements InfoService {
 		    //2.查询到最火的数据后，再 union 其他数据，按时间倒叙，新的在上面，且数据的ID不等于最火数据的Id（因为已经查出来放在了最前面）
 		    //3.获得 start ~ end 的数据 ，以上皆为一条sql完成
 			//4.进行异常捕获，不做任何处理，失败了返回null,成功返回  infos
-		
 		try {
 			infos=infoMapper.getInfoByRange(start,end);
 		} catch (Exception e) {

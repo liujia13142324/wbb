@@ -39,6 +39,7 @@ body, html {
 }
 </style>
 <body>
+	${ infos}
    	<div id="inner_div">
     	<ul>
     	<div class="header">发布广场</div>
