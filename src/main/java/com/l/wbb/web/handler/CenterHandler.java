@@ -24,11 +24,10 @@ public class CenterHandler {
 	
 	@RequestMapping("/enter")
 	public String getUserInfo(String code,HttpSession session){
-		
-		session.isNew();
 	
 		try {
-			User user = userService.findUser(code);
+			//User user = userService.findUser(code);
+			User user = new User("aaaaaa","aaaaaa",1,"img/QQ.png");
 			if (user.getOpenid()!=null){
 				userService.checkUser(user);
 				session.setAttribute("user", user);

@@ -2,7 +2,7 @@
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
- <jsp:forward page="info/infoCenter"/> 
+ <jsp:forward page="center/enter"/> 
 
 <script>
 	<!-- 这里获得调用微信接口，获得参数 写在一个新的js里面 -->

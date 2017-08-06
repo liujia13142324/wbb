@@ -8,24 +8,30 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.l.wbb.bean.Image;
 import com.l.wbb.bean.Info;
 import com.l.wbb.bean.Theme;
+import com.l.wbb.bean.User;
 import com.l.wbb.service.InfoService;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations={"classpath:spring.xml", "classpath:spring-mvc.xml"})//可插拔式
+/*@RunWith(SpringJUnit4ClassRunner.class)
+*/@ContextConfiguration(locations={"classpath:spring.xml", "classpath:spring-mvc.xml"})//可插拔式
 public class InfoMapperTest1 {
-
-	@Autowired
-	private InfoService infoService;
-	@Autowired
-	private InfoMapper infoMapper;
+	
+	private static InfoService infoService;
+	private static InfoMapper infoMapper;
+	
+	static{
+		ApplicationContext cxt = new ClassPathXmlApplicationContext("spring.xml");
+		infoService = (InfoService) cxt.getBean("infoService");
+		infoMapper = (InfoMapper) cxt.getBean("infoMapper");
+	}
+	
+	
 	@Test
 	public void testGetAllTheme() {
 		List<Theme> themes=infoService.getAllTheme();
@@ -38,7 +44,9 @@ public class InfoMapperTest1 {
 
 	@Test
 	public void testInsertInfo() {
-		Info info=new Info("2",2,"今天周三哦");
+		User user = new User();
+		user.setOpenid("cccccc");
+		Info info=new Info(user,1,"今天周六哦");
 		int result=infoMapper.insertInfo(info);
 		System.out.println(result);
 		assertEquals(result,1);

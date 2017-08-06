@@ -138,7 +138,7 @@ public class InfoServiceImpl implements InfoService {
 					try {
 						file.transferTo(targetFile);
 						// 备份一份到工作目录，发布后可删除
-						File workFile = new File(WBBConst.WORKIMGPATH + "/" + info.getOpenId() + new Date() + suffix);
+						File workFile = new File(WBBConst.WORKIMGPATH + "/" + info.getUser().getOpenid() + new Date() + suffix);
 
 						if (!workFile.exists()) {
 							workFile.createNewFile();
@@ -161,7 +161,7 @@ public class InfoServiceImpl implements InfoService {
 						// 设置入库image
 						Image img = new Image();
 						img.setInfoId(info.getInfoId());
-						img.setImgPath(WBBConst.UPLOADPATH + "/" + info.getOpenId() + new Date() + suffix);
+						img.setImgPath(WBBConst.UPLOADPATH + "/" + info.getUser().getOpenid() + new Date() + suffix);
 						imgs.add(img);
 						LogManager.getLogger().debug("保存文件【" + fileName + "】成功...");
 					} catch (Exception e) {

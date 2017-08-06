@@ -3,6 +3,7 @@ package com.l.wbb.web.handler;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,9 +14,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.l.wbb.bean.Comment;
 import com.l.wbb.bean.Info;
 import com.l.wbb.bean.LikeInfo;
-import com.l.wbb.bean.PaginationBean;
 import com.l.wbb.bean.Theme;
-import com.l.wbb.context.WBBConst;
+import com.l.wbb.bean.User;
 import com.l.wbb.service.InfoService;
 
 @Controller
@@ -25,11 +25,12 @@ public class InfoHandler {
 	@Autowired
 	private InfoService infoService;
 	
+	
+	
 	@RequestMapping("/infoCenter")
 	public String enterInfoCenter(HttpServletRequest request,Integer themeId){
 		
 		List<Theme> themes = infoService.getAllTheme();
-		
 		List<Info> infos = null;
 		if(themeId == null){
 			// 大厅就是获得所有的分类，不需要在数据新建
@@ -55,16 +56,18 @@ public class InfoHandler {
 		return "user/userHistory";
 	}
 	
-	
 	@RequestMapping("/detailInfo")
-	public String getDetailInfo(Info info, int islike , HttpServletRequest request){
+	public String getDetailInfo(Info info,int likeCount,boolean islike , HttpServletRequest request){
 	
 		List<Comment> comments = infoService.getCommentsOfInfo(info.getInfoId());
+		System.out.println(info);
+		System.out.println(likeCount);
+		System.out.println(islike);
 		request.setAttribute("info", info);
 		request.setAttribute("comments", comments);
 		request.setAttribute("islike", islike);
 		
-		return "infoDetail";
+		return "page/infoDetail";
 	}
 	
 	@RequestMapping("/publishInfo")
@@ -89,8 +92,9 @@ public class InfoHandler {
 	
 	@RequestMapping("/setLikeInfo")
 	@ResponseBody
-	public String setLikeInfo(LikeInfo likeInfo,int setStatus){
-		
+	public String setLikeInfo(LikeInfo likeInfo,int setStatus,HttpSession session){
+		User user = (User)session.getAttribute("user");
+		likeInfo.setOpenId(user.getOpenid());
 		if(infoService.setLikeInfo(likeInfo,setStatus)){
 			return "success";
 		}

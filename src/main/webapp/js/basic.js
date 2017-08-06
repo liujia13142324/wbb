@@ -58,4 +58,11 @@ function hideComment(e) {
 	}
 						
 }
-
+function sendAsynRequest(requestType,url,RequestData,successHandler){
+$.ajax({
+	   type: requestType,
+	   url: url,
+	   data:RequestData,
+	   success: successHandler
+	});
+}

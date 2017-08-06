@@ -6,14 +6,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper  namespace="com.l.wbb.mapper.InfoMapper">
 	<!-- 编写sql时 切勿在查询的时候以 * 代替所有列；插入时，也要写上插入字段！-->
-	
 	<select id="getAllTheme" resultType="Theme">
 		select themeId,themeName from theme
 	</select>
 	
 	
 	<insert id="insertInfo" parameterType="Info" >
-		insert into info(openid,themeId,infoId,infoContent,publishTime) values(#{openid},#{themeId},nextval("infoId"),#{infoContent},now());
+		insert into info(openid,themeId,infoId,infoContent,publishTime) values(#{user.openid},#{themeId},nextval("infoId"),#{infoContent},now());
 	</insert>
 	
 	
@@ -43,6 +42,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	     select infoId,imgPath from image where infoId = #{infoId}
 	</select>
 	
+	<select id="getImgByThemeId" parameterType="Integer" resultType="Image">
+	     select infoId,imgPath from image where infoId = #{infoId}
+	</select>
 	
 	<!-- resultMap接收结果集 -->
 	<select id="getInfoByTheme" parameterType="Integer" resultMap="InfoMap">
@@ -54,16 +56,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    <collection property="imgs" column="infoId" select="getImgByThemeId"/>
 	</resultMap>
 	
-	<select id="getImgByThemeId" parameterType="Integer" resultType="Image">
-	     select infoId,imgPath from image where infoId = #{infoId}
-	</select>
-	
 	<insert id="publishComent" parameterType="Comment">
 		insert into comment(commentId,openId,infoId,commentContent,publishDate) values(nextval("commentId"),#{openId},${infoId},#{commentContent},#{publishDate})
 	</insert>
 	
 	<insert id="addLikeInfo" parameterType="LikeInfo">
-		insert into likeInfo(openId,infoId,likeStatus) values(#{openId},${infoId},${likeStatus})
+		insert into likeInfo(openId,infoId) values(#{openId},${infoId})
 	</insert>
 	
 	<delete id="deleteLikeInfo" parameterType="LikeInfo">
@@ -74,13 +72,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select openId,infoId,commentContent,publishDate from comment where infoId=#{infoId} order by publishDate DESC limit #{start},#{end}  
 	</select>
 	
-	
-	<select id="getInfoByRange" parameterType="Integer" resultType="Info">
-		(select openId,themeId,infoId,infoContent,publishTime from info where openId =(
-			select openId,max(commentCount+likeInfo) from comment,likeInfo where comment.openid=linkeinfo.openid))
-			union(select openId,themeId,infoId,infoContent,publishTime from info order by publishTime DESC)
+	<!-- 要换resultMap , 吧likeInfo的值全部查进去 -->
+	<select id="getInfoByRange" parameterType="Integer" resultMap="infoMap">
+		select openid , themeId , infoId ,infoContent , publishTime,commentCount,likeInfoCount
+		from  allInfo where (commentCount+likeinfoCount)=(select max(commentCount+likeinfoCount) from allInfo)
+		union select openid,themeId,infoId,infoContent,publishTime,commentCount,likeInfoCount from allInfo
 	</select>
 	
-	
+	<resultMap type="Info" id="infoMap">
+	<!-- 数据库列的字母大小不影响注入java对象，这里面 column大小写无关 -->
+		<result column="themeId" property="themeId"/>
+		<result column="infoId" property="infoId"/>
+		<result column="infoContent" property="infoContent"/>
+		<result column="publishTime" property="publishTime"/>
+		<result column="commentCount" property="commentCount"/>
+		<association property="user" column="openId" select="getUserByOpenid"/>
+		<collection  property="likeinfo"  column="{infoId=infoId}" select="getLikeInfo">
+		</collection>
+		<collection  property="imgs" column="infoId" select="getImgByOpenId">
+		</collection>
+	</resultMap>
+	<select id="getUserByOpenid" resultType="User"> select openid,nickName,sex,headimgurl from user where openid=#{openid} </select>
+	<select resultType="LikeInfo" id="getLikeInfo">
+		select openId,infoId from likeInfo where infoId=#{infoId}
+	</select>
 </mapper>
 

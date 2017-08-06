@@ -1,22 +1,16 @@
 package com.yc.conn.test;
 
-import java.sql.ResultSet;
 import java.util.Date;
-
-
-
-
 import java.util.List;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.l.wbb.bean.Comment;
+import com.l.wbb.bean.Info;
 import com.l.wbb.bean.LikeInfo;
 import com.l.wbb.service.InfoService;
 
@@ -25,6 +19,13 @@ import com.l.wbb.service.InfoService;
 public class InfoTest {
 	@Autowired
 	private InfoService infoService;
+	@Test
+	public void getInfobyRange(){
+		ApplicationContext cxt=new ClassPathXmlApplicationContext("spring.xml");
+		infoService=(InfoService) cxt.getBean("infoService");
+		List<Info> infos = infoService.getInfoByRange(0, 10);
+		System.out.println(infos);
+	}
 	
 	@Test
 	public void TestInfo(){

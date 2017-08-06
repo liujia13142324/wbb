@@ -17,8 +17,9 @@ public interface InfoMapper {
 	int insertImage(List<Image> imgs);
 
 	List<Info> getUserHistory(String openid);
-
+	
 	List<Info> getInfoByTheme(Integer themeId);
+	
 	int publishComent(Comment comment);
 
 	int addLikeInfo(LikeInfo likeInfo);

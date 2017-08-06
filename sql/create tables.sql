@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 
 
 create table user (
@@ -92,8 +91,6 @@ DELIMITER ;
 
 select currval('themeId')
 
-
-=======
 
 
 create table user (
@@ -241,4 +238,3 @@ create table goodsComment(
 	FOREIGN KEY (goodsId) REFERENCES goods (goodsId),
     FOREIGN KEY (openId) REFERENCES user (openId)
 )
->>>>>>> branch 'master' of git@github.com:liujia13142324/wbb.git
