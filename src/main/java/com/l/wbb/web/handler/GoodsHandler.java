@@ -84,11 +84,9 @@ public class GoodsHandler {
 	public String getDetailInfo(Goods goods,  HttpServletRequest request , HttpSession session){
 	
 		List<GoodsComment> comments = goodsService.getCommentByRange(goods.getGoodsId(),0,10);
-		
-		
 		List<GoodsImage> subImgs = goodsService.getSubImage(goods.getMainImage().getImgId());
 		subImgs.add(0, goods.getMainImage());
-		//LogManager.getLogger().debug("请求："+goods);
+		LogManager.getLogger().debug("请求："+goods);
 	
 		request.setAttribute("lastGoods", goods);
 		request.setAttribute("imgs", subImgs);

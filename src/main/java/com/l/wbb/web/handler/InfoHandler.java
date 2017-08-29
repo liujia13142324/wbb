@@ -32,7 +32,7 @@ public class InfoHandler {
 	
 	@RequestMapping("/infoCenter")
 	public String enterInfoCenter(HttpServletRequest request,Integer themeId, HttpServletResponse response , HttpSession session){
-		//System.out.println(themeId);
+		//.out.println(themeId);
 		List<Theme> themes = infoService.getAllTheme();
 		List<Info> infos = null;
 		if(themeId == null || themeId<0){
@@ -44,7 +44,6 @@ public class InfoHandler {
 			for (Theme theme : themes) {
 				if(themeId.intValue() == theme.getThemeId().intValue()){
 					request.setAttribute("currentTheme", theme);
-					//System.out.println(theme.getThemeName());
 					break;
 				}
 			}
@@ -63,7 +62,6 @@ public class InfoHandler {
 		User user = (User) session.getAttribute("user");
 		LogManager.getLogger().debug("用户："+user+"请求历史信息");
 		List<Info> userHistory = infoService.getUserHistory(user.getOpenid(),session,response);
-		//System.out.println(userHistory);
 		request.setAttribute("infos", userHistory);
 		return "page/user/userHistory";
 	}

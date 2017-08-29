@@ -211,7 +211,6 @@ public class InfoServiceImpl implements InfoService {
 		int result=0;
 		try {
 			result=infoMapper.publishComent(comment);
-			System.out.println(result);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			LogManager.getLogger().debug("插入评论失败！");
@@ -265,7 +264,6 @@ public class InfoServiceImpl implements InfoService {
 	}
 	private void setCookies(HttpSession session, HttpServletResponse response, List<Info> infos) {
 		User user  = (User) session.getAttribute("user");
-		System.out.println("USer:"+user);
 		if(user == null){
 			for (Info info : infos) {
 				Cookie cookie = new Cookie("likeInfo_"+info.getInfoId(),false+"");
