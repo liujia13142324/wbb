@@ -7,31 +7,51 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select categoryId,name from category
 	</select>
 	
-	<select id="getGoodsByRange" parameterType="Integer" resultType="Goods">
-		select openId,categoryId,goodsId,goodsTitle,goodsIntroduction,price,publishTime,imgId,tips from goods order by publishTime DESC limit #{start},#{end} 
+	<select id="getGoodsByRange" parameterType="Integer" resultMap="goodsMap">
+		select openId,categoryId,goodsId,goodsTitle,goodsIntroduction,price,publishTime,imgId,tips,qq from goods order by publishTime DESC limit #{start},#{end} 
 	</select>
 	
-	<select id="getCommentByRange" parameterType="Integer" resultType="GoodsComment">
-		select openId,goodsId,commentContent,publishDate from goodsComment where goodsId=#{goodsId} order by publishDate DESC limit #{start},#{end} 
+	<resultMap type="Goods" id="goodsMap">
+		<result column="goodsId" property="goodsId"/>
+		<association property="commentCount" column="goodsId" select="getCommentCountByGoodsId"/>
+		<collection property="mainImage" column="imgId" select="selectMainImg"/>
+	</resultMap>
+	
+	<select id="getCommentCountByGoodsId" resultType="int">
+		select count(0) from goodsComment where goodsId = #{goodsId}
 	</select>
 	
-	<select id="getCategoryGoodsByRange" parameterType="Integer" resultType="Goods">
+	<select id="selectMainImg" resultType="GoodsImage">
+		select imgId,imgPath from mainimage where imgId = #{imgId}
+	</select>
+	
+	<select id="getCommentByRange" parameterType="Integer" resultMap="goodsCommentMap">
+		select openId,goodsId,commentContent,publishDate from goodsComment where goodsId=#{goodsId} order by publishDate limit #{start},#{end} 
+	</select>
+	
+	<resultMap type="GoodsComment" id="goodsCommentMap">
+		<association property="user" column="openId" select="getUserByOpenid"/>
+	</resultMap>
+	
+	<select id="getUserByOpenid" resultType="User"> select openid,nickName,sex,headimgurl from user where openid=#{openid} </select>
+	
+	<select id="getCategoryGoodsByRange" parameterType="Integer" resultMap="goodsMap" >
 		select openId,categoryId,goodsId,goodsTitle,goodsIntroduction,price,publishTime,imgId,tips from goods where categoryId=#{categoryId} order by publishTime DESC limit #{start},#{end}
 	</select>
 	
-	<select id="getGoodsBySearch" parameterType="String" resultType="Goods">
+	<select id="getGoodsBySearch" parameterType="String" resultMap="goodsMap">
 		select openId,categoryId,goodsId,goodsTitle,goodsIntroduction,price,publishTime,imgId,tips from goods where goodsTitle like #{searchCondition} order by publishTime DESC
 	</select>
 	
-	<select id="getUserHistory" parameterType="String" resultType="Goods" >
+	<select id="getUserHistory" parameterType="String" resultMap="goodsMap" >
 		select openId,categoryId,goodsId,goodsTitle,goodsIntroduction,price,publishTime,imgId,tips from goods where openId=#{openId} order by publishTime DESC
 	</select>
 	 
 	<select id="getSubImage" parameterType="Integer" resultType="GoodsImage">
-		select imgId,imgPath from mainImage where imgId=#{imgId}
+		select imgId,imgPath from subimage where imgId=#{imgId}
 	</select>
 	
 	<insert id="publishComent" parameterType="GoodsComment">
-		insert into GoodsComment(goodsCommentId,openId,goodsId,commentContent,publishDate) values (nextval("goodsCommentId"),#{openId},#{goodsId},#{commentContent},#{publishDate})
+		insert into GoodsComment(goodsCommentId,openId,goodsId,commentContent,publishDate) values (nextval("goodsCommentId"),#{user.openid},#{goodsId},#{commentContent},#{publishDate})
 	</insert>
 </mapper>

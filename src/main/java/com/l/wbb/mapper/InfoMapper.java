@@ -29,5 +29,7 @@ public interface InfoMapper {
 	List<Comment> getCommentByRange(@Param("infoId")Integer infoId,@Param("start") Integer start,@Param("end") Integer end);
 
 	List<Info> getInfoByRange(Integer start, Integer end);
+	
+	List<Info> getThemeInfoByRange(Integer themeId, Integer start, Integer end);
 
 }

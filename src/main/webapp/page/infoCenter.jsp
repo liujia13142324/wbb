@@ -20,51 +20,45 @@
 <base href="/wbb/">
 <title>发布广场</title>
 <link href="css/basic.css" rel="stylesheet">
-<link href="css/lib.css" rel="stylesheet">
 <link href="css/infoCenter.css" rel="stylesheet">
 <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
 <link rel="stylesheet" href="easyui/css/easyui.css">
 <link rel="stylesheet" href="css/pullToRefresh.css"/>
 <link rel="stylesheet" href="css/menu.css">
 <link href="lightGallery/css/lightgallery.css" rel="stylesheet">
-
-<script src="js/iscroll.js"></script>
-<script src="js/pullToRefresh.js"></script>
-
+<link rel="stylesheet" href="css/pullToRefresh.css"/>
+<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="js/basic.js"></script>
+<style>
+	#inner_div .info_div:nth-last-of-type(2) {
+		margin-bottom:10px;
+	}
+</style>
 <title>发布广场</title>
 </head>
-<style>
-body, html {
-	padding: 0;
-	margin: 0;
-	height: 100%;
-	font-family: Arial, Helvetica, sans-serif;
-}
-*{
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
-</style>
 <body>
-   	<div id="inner_div">
-    	<ul>
-    	<div class="header">发布广场</div>
-    	<div class="dataList">
-			<c:forEach items="${infos }" var="info">
-					<div class="info_div" onclick="lookInfo(this)" >
-					<form action="info/detailInfo">
+<div id="out_div">
+   	<div id="inner_div" >
+  			<div class="header" data-type="info" themeid="${currentTheme != null?currentTheme.themeId:-1 }">${currentTheme != null?currentTheme.themeName:"广场" }</div> 
+			<c:forEach items="${infos }" var="info" varStatus="infoStatus">
+					<div class="info_div"  >
+					<form action="info/detailInfo" method="post">
 					<input type="hidden" name="infoId" value="${info.infoId}"/>
 					<input type="hidden" name="user.headimgurl" value="${info.user.headimgurl }"/>
 					<input type="hidden" name="user.nickname" value="${info.user.nickname }"/>
-					<input type="hidden" name="user.sex " value="${info.user.sex }"/>
+					<input type="hidden" name="user.sex" value="${info.user.sex }"/>
 					<input type="hidden" name="publishTime" value="<fmt:formatDate value="${info.publishTime }" pattern="yyyy-MM-dd HH:mm:ss E"/>"/>
 					<input type="hidden" name="infoContent" value="${info.infoContent }"/>
-					<input type="hidden" name="commentCount" value="${info.commentCount }"/>
-					<input type="hidden" name="likeCount" value="${fn:length(info.likeinfo)}"/>
+					<c:forEach items="${info.imgs }" var="img" varStatus="status">
+						<input type="hidden" name="imgs[${status.index }]" value="${img.imgPath }"/>
+					</c:forEach>
 						<div class="user-heading">
 							<div class="headImg">
 								<img style="width:100%;height:100%;" class="headimgurl" src="${info.user.headimgurl }"/>
+								<c:if test="${infoStatus.index==0 }">
+									<img src="img/hot.png" style="width:30px;height:30px;position:absolute;right:10px;top:10px;">
+								</c:if>
 							</div>
 							<div class="otherUserInfo">						
 								<p><span class="nickname">${info.user.nickname }</span> &nbsp;
@@ -77,7 +71,6 @@ body, html {
 									</c:otherwise>
 								</c:choose>
 								</p>
-								
 								<p class="publishTime"><fmt:formatDate value="${info.publishTime }" pattern="yyyy-MM-dd HH:mm:ss E"/></p>
 							</div>	
 						</div>
@@ -87,23 +80,22 @@ body, html {
 								<c:choose>
 									<c:when test="${fn:length(info.imgs) ==1}">
 										<img class="onlyImg imgPath" data-src="${info.imgs[0].imgPath }" src="${info.imgs[0].imgPath }"/>
-										<input type="hidden" name="imgs[0]" value="${info.imgs[0].imgPath }"/>
 									</c:when>
 									<c:when test="${fn:length(info.imgs) ==2}">
 										<div class="imgs imgMoreThanOne imgPath" data-src="${info.imgs[0].imgPath }"  style="background-image:url('${info.imgs[0].imgPath }')" ></div>
 										<div class="imgs imgMoreThanOne imgPath" data-src="${info.imgs[1].imgPath }"  style="background-image:url('${info.imgs[1].imgPath }')" ></div>
-										<input type="hidden" name="imgs[0]"  value="${info.imgs[0].imgPath }"/>
-										<input type="hidden" name="imgs[1]" value="${info.imgs[1].imgPath }"/>
 									</c:when>
 									<c:when test="${fn:length(info.imgs) >2}">
 										<c:forEach items="${info.imgs }" var="img" varStatus="status">
-											<div class="imgs imgMoreThanTwo imgPath" data-src="${img.imgPath }"  style="background-image:url('${img.imgPath }')" ></div>
-											<input type="hidden" name="imgs[${status.index }]" value="${info.imgs[0].imgPath }"/>
+											<div class="imgs imgMoreThanTwo imgPath"  data-src="${img.imgPath }"  style="background-image:url('${img.imgPath }')" ></div>
+											<%-- <input type="hidden" name="imgs[${status.index }]" value="${info.imgs[0].imgPath }"/> 这里面的循环，会让lightGallery失效--%>
 										</c:forEach>
 									</c:when>
 								</c:choose>
 							</div>
+							<div style="clear:both"></div>
 						</div>
+						
 						<div class="x-info" style="clear:both;">
 							<div class="x_left">
 								<span><span class="likeSpan">${fn:length(info.likeinfo)}</span>喜欢</span>&nbsp;
@@ -112,49 +104,23 @@ body, html {
 							<div class="x_right">
 								<!-- fa fa-heart -->
 								<!-- 需要有user来测试点赞 -->
-								<%
-									User user =(User) session.getAttribute("user");
-									Info info = (Info)pageContext.getAttribute("info");
-									List<LikeInfo> likes = info.getLikeinfo();
-									boolean islike = false;
-									for(int i=0;i<likes.size();i++){
-										if(likes.get(i).getOpenId().equals(user.getOpenid()) && likes.get(i).getInfoId()==info.getInfoId() ){
-											%>
-												<i class="fa fa-heart like" onclick="clickLike(this,${info.infoId},event)" aria-hidden="true"></i>
-												<input type="hidden" name="islike" value="1"/>
-											<%
-											islike = true;
-											break;
-										}
-									}
-									if(!islike){
-										
-										%>
-											<i class="fa fa-heart-o like" onclick="clickLike(this,${info.infoId},event)" aria-hidden="true"></i>
-											<input type="hidden" name="islike" value="0"/>
-										<%
-									}
-								%>
 								<i class="fa fa-commenting-o comment" aria-hidden="true"></i>
+								<script type="text/javascript">setIsLike('${info.infoId}','${infoStatus.index}')</script>
 							</div>
 							<div class="_clear"></div>
 						</div>
 						</form>
 					</div>
-			</c:forEach>    	
+			</c:forEach>   
     	</div>
-		</ul>
-	</div>
-
+<div id="bottom_div" style="height:20px;">
+	继续向上拉动加载
+</div>
 		
 		<div id="right_corner_menu" class="dropup">
 			<a href="javascript:void(0);" id="menu_a"><i class="fa fa-bars"   aria-hidden="true"></i></a>
 			<div style="display:none;">
 				<div id="menu_content">
-					 <p>写心情</p>
-					<p>我的历史</p> 
-					<p>吐槽广场</p> 
-					<p>二手市场</p>
 				</div>
 			</div>
 		</div>
@@ -168,30 +134,25 @@ body, html {
 						<p>表白</p> 
 						<p>吐槽</p>
 						<p>自恋</p> -->
-						<p>广场</p>
 					<c:forEach var="item" items="${themes}">
-						<p>${item.themeName }</p>
+				<!-- 	 onclick="changeTheme(this)" -->
+						<p class="theme_p" id="theme_${item.themeId }">${item.themeName }</p>
 					</c:forEach>
 				</div>
 			</div>
 		</div>
-		
+	</div>	
 </body>
- <!-- Bootstrap core JavaScript
-    ================================================== -->
-  
-  
-    <!-- Placed at the end of the document so the pages load faster -->
-   <!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
-    <script>window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')</script>
-    <script src="js/bootstrap.min.js"></script>
-   <!--  <script src="js/docs.min.js"></script> -->
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="js/ie10-viewport-bug-workaround.js"></script>
-    <script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
-    <script type="text/javascript" src="js/basic.js"></script>
-    <script type="text/javascript" src="js/info.js"></script>
-    <script src="js/reflush.js"></script>
-    <script src="js/initLightGallery.js"></script>
-    <script src="js/infoCenter.js"></script>
+
+
+<script type="text/javascript" src="js/jquery.sinaEmotion.js"></script>
+<script src="js/pullToRefresh.js"></script>
+<script src="js/initLightGallery.js"></script>
+<script type="text/javascript" src="js/info.js"></script>
+<script src="js/infoCenter.js"></script>
+<script type="text/javascript" src="js/dateFormat.js"></script>
+<script src="js/reflush.js"></script>
+<script type="text/javascript">
+$("#pullUp").css("height","40px");
+</script>
 </html>

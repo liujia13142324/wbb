@@ -71,8 +71,8 @@ hr{
 </style>
 <body>
 	<div class="header">
-		<span class="header_left"><span class="fa fa-times header_icon"
-			aria-hidden="true"></span></span> <span class="header_title">二手市场</span> <span
+		<span class="header_left"><span id="close_span_goods"  class="fa fa-times header_icon"
+			aria-hidden="true"></span></span> <span class="header_title">二手广场</span> <span
 			class="header_right">发送</span>
 	</div>
 
@@ -114,10 +114,7 @@ hr{
 	
 </body>
 
-<script>
-	window.jQuery
-			|| document.write('<script src="js/jquery.min.js"><\/script>')
-</script>
+<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
 <script type="text/javascript" src="js/sinaFaceAndEffec.js"></script>
 <script src="js/exif.js"></script>
 <script src="js/initLightGallery.js"></script>

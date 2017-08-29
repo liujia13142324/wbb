@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -23,101 +25,55 @@
 *{
 box-sizing: content-box;
 }
+.header{
+	height:50px;
+}
 </style>
 <body>
-<div id="inner_div">
-<ul style="background:#efefef">
-	<div class="header">历史发布</div>
-	<div class="tool_div">
-		<span class="select_span">
-			<select>
-				<option>全部</option>
-			</select><i class="fa fa-angle-down" style="color:#999;" aria-hidden="true"></i>
-		</span>
-		<span class="search_span">
-			<input type="text"/><i class="fa fa-search" aria-hidden="true"></i>
-		</span>
-	</div>
+<div id="out_div">
+   	<div id="inner_div" >
+	<div class="header" data-type="history_goods">历史发布</div>
 	
 	<div id="goodsList" class="dataList">
-		<div class="goods_div">
-			<div class="goods_img" ></div>
-			<div class="goods_info">
-				<p class="title">豪车1</p>
-				<p class="tips">汽车/九成新，可小刀，包邮</p>
-				<p class="price"><span>￥</span>10</p>
-			</div>
+		<div id="goodsList" class="dataList">
+	<c:forEach items="${products }" var="product" varStatus="proStatus">
+		<div class="goods_div" onclick="lookGoods(this)">
+			<form action="goods/detailGoods" method="post">
+			<input type="hidden" name="mainImage.imgId" value="${product.mainImage.imgId }" />
+			<input type="hidden" name="mainImage.imgPath" value="${product.mainImage.imgPath }" />
+			<input type="hidden" name="goodsId"  value="${product.goodsId }"/>
+			<input type="hidden" name="goodsTitle"  value="${product.goodsTitle }"/>
+			<input type="hidden" name="tips"  value="${product.tips }"/>
+			<input type="hidden" name="price" value="${product.price }" />
+			<input type="hidden" name="qq" value="${product.qq }" />
+			<input type="hidden" name="publishTime" value="<fmt:formatDate value="${product.publishTime }" pattern="yyyy-MM-dd HH:mm:ss E"/>"/>
+			<input type="hidden" name="goodsIntroduction" value="${product.goodsIntroduction }">
+				<div class="goods_img" style="background-image:url('${product.mainImage.imgPath }')" ></div>
+				<div class="goods_info">
+					<p class="title" >${product.goodsTitle }</p>
+					<p class="tipss">${product.tips }</p>
+					<p class="price"><span>￥</span>${product.price }</p>
+				</div>
+			</form>
 		</div>
-		
-		<div class="goods_div">
-			<div class="goods_img" style="background-image:url('img/test2.jpg')" ></div>
-			<div class="goods_info">
-				<p class="title">豪车2，亏本大甩卖，走过路过不要错过！</p>
-				<p class="tips">汽车/九成新，可小刀，包邮,送老司机一枚</p>
-				<p class="price"><span>￥</span>20000000</p>
-			</div>
-		</div>
-		
-		<div class="goods_div">
-			<div class="goods_img" style="background-image:url('img/test3.jpg')" ></div>
-			<div class="goods_info">
-				<p class="title">豪车3，亏本大甩卖，走过路过不要错过！</p>
-				<p class="tips">汽车/九成新，可小刀，包邮</p>
-				<p class="price"><span>￥</span>20000000</p>
-			</div>
-		</div>
-		
-		<div class="goods_div">
-			<div class="goods_img" style="background-image:url('img/test3.jpg')" ></div>
-			<div class="goods_info">
-				<p class="title">豪车3，亏本大甩卖，走过路过不要错过！</p>
-				<p class="tips">汽车/九成新，可小刀，包邮</p>
-				<p class="price"><span>￥</span>20000000</p>
-			</div>
-		</div>
-		
-		<div class="goods_div">
-			<div class="goods_img" style="background-image:url('img/test3.jpg')" ></div>
-			<div class="goods_info">
-				<p class="title">豪车3，亏本大甩卖，走过路过不要错过！</p>
-				<p class="tips">汽车/九成新，可小刀，包邮</p>
-				<p class="price"><span>￥</span>20000000</p>
-			</div>
-		</div>
-		
+	</c:forEach>
 	</div>
 	<div style="clear:both;"></div>
-</ul>
 </div>
-
-<div id="data" style="display:none" class="goods_div">
-			<div class="goods_img" style="background-image:url('img/test3.jpg')" ></div>
-			<div class="goods_info">
-				<p class="title">豪车3，亏本大甩卖，走过路过不要错过！</p>
-				<p class="tips">汽车/九成新，可小刀，包邮</p>
-				<p class="price"><span>￥</span>20000000</p>
-			</div>
-		</div>
-
+</div>
+</div>
 <div id="right_corner_menu" class="dropup">
 	<a href="javascript:void(0);" id="menu_a"><i class="fa fa-bars"   aria-hidden="true"></i></a>
 	<div style="display:none;">
-		<div id="menu_content">
-			<p>发布二手信息</p>
-			<p>我的历史发布</p> 
-			<p>吐槽广场</p> 
+		<div id="menu_content" class="goods_menu">
 		</div>
 	</div>
 </div>
 
 </body>
-<script>
-	window.jQuery
-			|| document.write('<script src="js/jquery.min.js"><\/script>')
-</script>
+<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
  <script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
    <script type="text/javascript" src="js/basic.js"></script>
-<script src="js/iscroll.js"></script>
 <script src="js/pullToRefresh.js"></script>
 <script src="js/reflush.js"></script>
 

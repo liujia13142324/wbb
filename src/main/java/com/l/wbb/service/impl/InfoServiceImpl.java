@@ -1,5 +1,6 @@
 package com.l.wbb.service.impl;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -7,6 +8,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +26,11 @@ import com.l.wbb.bean.Image;
 import com.l.wbb.bean.Info;
 import com.l.wbb.bean.LikeInfo;
 import com.l.wbb.bean.Theme;
+import com.l.wbb.bean.User;
 import com.l.wbb.context.WBBConst;
 import com.l.wbb.mapper.InfoMapper;
 import com.l.wbb.service.InfoService;
+import com.l.wbb.util.MyImageUtil;
 
 @Service("infoService")
 public class InfoServiceImpl implements InfoService {
@@ -46,23 +53,19 @@ public class InfoServiceImpl implements InfoService {
 	}
 
 	
-	@Override
-	public List<Info> getFirstPageInfo() {
-		//   步骤都在这个方法里面
-		return getInfoByRange(1,10);
-	}
-	
 	
 
 
 	@Override
-	public List<Info> getInfoByTheme(Integer themeId) {
+	public List<Info> getInfoByTheme(Integer themeId, HttpServletResponse response, HttpSession session) {
 
 		List<Info> infos = new ArrayList<Info>();
 		try {
-			infos = infoMapper.getInfoByTheme(themeId);
+			infos = getThemeInfoByRange(themeId, 0, 9,response,session);
+			setCookies(session,response,infos);
 		} catch (Exception e) {
 			LogManager.getLogger().debug("获取主题内容失败！！！");
+			e.printStackTrace();
 			return null;
 		}
 		return infos;
@@ -70,7 +73,7 @@ public class InfoServiceImpl implements InfoService {
 	}
 
 	@Override
-	public List<Info> getUserHistory(String openid) {
+	public List<Info> getUserHistory(String openid,HttpSession session,HttpServletResponse response) {
 		List<Info> infos = new ArrayList<Info>();
 		try {
 
@@ -80,6 +83,7 @@ public class InfoServiceImpl implements InfoService {
 			// 4.获得前十个数据 ，以上皆为一条sql完成
 
 			infos = infoMapper.getUserHistory(openid);
+			setCookies(session, response, infos);
 
 		} catch (Exception e) {
 			LogManager.getLogger().debug("获取用户历史信息失败！！！");
@@ -95,11 +99,11 @@ public class InfoServiceImpl implements InfoService {
 
 	@Override
 	public List<Comment> getCommentsOfInfo(Integer infoId) {
-		return getCommentByRange(infoId, 1, 10);
+		return getCommentByRange(infoId, 0, 10);
 	}
 
 	private List<Image> uploadImg(Info info, MultipartHttpServletRequest request) {
-		List<Image> imgs = new ArrayList<Image>();
+		List<Image> imgs = null;
 		// TODO 1. 获取request中的所有图片的文件，按照 openid_infoId_fileName
 		// 进行命名，存储到服务器的upload文件夹
 		// 2. 设置 info 的 imgs，初始化一个List 每保存一张图片，生成一个image加入到List中
@@ -111,65 +115,62 @@ public class InfoServiceImpl implements InfoService {
 		if (multipartResolver.isMultipart(request)) {
 			// 转换成多部分MultipartHttpRequest
 			MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
-
-			// 取得request中的所有文件名
-			Iterator<String> iter = multiRequest.getFileNames();
-			while (iter.hasNext()) {
-				// 取得上传文件
-				MultipartFile file = multiRequest.getFile(iter.next());
-
-				// 对上传文件进行处理
-				if (!file.isEmpty()) {
-					String path = request.getSession().getServletContext().getRealPath(WBBConst.UPLOADPATH);
-					String fileName = file.getOriginalFilename();
-					String suffix=null;
-					if ((fileName != null) && (fileName.length() > 0)) {
-						int dot = fileName.lastIndexOf('.');
-						if ((dot > -1) && (dot < (fileName.length() - 1))) {
-							suffix=fileName.substring(dot + 1);
+			if(multiRequest.getFileMap().size()>0){
+				imgs = new ArrayList<Image>();
+				// 取得request中的所有文件名
+				Iterator<String> iter = multiRequest.getFileNames();
+				while (iter.hasNext()) {
+					// 取得上传文件
+					MultipartFile file = multiRequest.getFile(iter.next());
+					Date date =new Date();
+					// 对上传文件进行处理
+					if (!file.isEmpty()) {
+						String path = request.getSession().getServletContext().getRealPath(WBBConst.UPLOADPATH);
+						String fileName = file.getOriginalFilename();
+						fileName = fileName.replaceAll("[\u4e00-\u9fa5]", "");
+					/*	// 不用在判断重复插入
+						String suffix=null;
+						if ((fileName != null) && (fileName.length() > 0)) {
+							int dot = fileName.lastIndexOf('.');
+							if ((dot > -1) && (dot < (fileName.length() - 1))) {
+								suffix=fileName.substring(dot + 1);
+							}
 						}
-					}
+						String newFileName = info.getUser().getOpenid() + date.getTime()+"."+ suffix;*/
+						File targetFile = new File(path,fileName );
+						// 保存
+						try {
+							file.transferTo(targetFile);
+							//ios系统需要旋转图片
+							MyImageUtil.uploadPicture(targetFile, targetFile);
+							// 备份一份到工作目录，发布后可删除
+							File workFile = new File(WBBConst.WORKIMGPATH + "/" + fileName);
+							if (!workFile.exists()) {
+								workFile.createNewFile();
+							}
+							FileInputStream imgin = new FileInputStream(targetFile);
+							FileOutputStream imgout = new FileOutputStream(workFile);
+							byte[] buff = new byte[1024];
+							while (imgin.read(buff) != -1) {
+								imgout.write(buff);
+							}
+							imgin.close();
+							imgout.flush();
+							imgout.close();
 
-					File targetFile = new File(path, fileName);
-					if (!targetFile.exists()) {
-						targetFile.mkdirs();
-					}
-					// 保存
-					try {
-						file.transferTo(targetFile);
-						// 备份一份到工作目录，发布后可删除
-						File workFile = new File(WBBConst.WORKIMGPATH + "/" + info.getUser().getOpenid() + new Date() + suffix);
-
-						if (!workFile.exists()) {
-							workFile.createNewFile();
+							// 设置入库image
+							Image img = new Image();
+							img.setInfoId(info.getInfoId());
+							img.setImgPath(WBBConst.UPLOADPATH + "/" + fileName);
+							imgs.add(img);
+							LogManager.getLogger().debug("保存文件【" + fileName + "】成功...");
+						} catch (Exception e) {
+							e.printStackTrace();
 						}
-
-						FileInputStream imgin = new FileInputStream(targetFile);
-
-						FileOutputStream imgout = new FileOutputStream(workFile);
-
-						byte[] buff = new byte[1024];
-
-						while (imgin.read(buff) != -1) {
-							imgout.write(buff);
-						}
-
-						imgin.close();
-						imgout.flush();
-						imgout.close();
-
-						// 设置入库image
-						Image img = new Image();
-						img.setInfoId(info.getInfoId());
-						img.setImgPath(WBBConst.UPLOADPATH + "/" + info.getUser().getOpenid() + new Date() + suffix);
-						imgs.add(img);
-						LogManager.getLogger().debug("保存文件【" + fileName + "】成功...");
-					} catch (Exception e) {
-						e.printStackTrace();
 					}
 				}
-			}
 
+			}
 		
 		}
 		return imgs;
@@ -182,15 +183,18 @@ public class InfoServiceImpl implements InfoService {
 		// TODO 1.将所有的图片文件进行存储
 		List<Image> imgs = uploadImg(info, request);
 		boolean t1 = false, t2 = false;
+		// 2. 将info插入 info表
+		t1 = infoMapper.insertInfo(info) > 0;
 		if (imgs != null) {
-			// 2. 将info插入 info表
-			t1 = infoMapper.insertInfo(info) > 0;
 			// 3. 将imgs插入 image表
+			for (Image image : imgs) {
+				image.setInfoId(info.getInfoId());
+			}
 			t2 = infoMapper.insertImage(imgs) > 0;
-
-			info.setPublishTime(new Date());
-
+		} else {
+			t2 = true;
 		}
+		
 		if (t1 && t2) {
 			return true;
 		} else {
@@ -241,7 +245,7 @@ public class InfoServiceImpl implements InfoService {
 
 	
 	/*lxd*/
-	public List<Info> getInfoByRange(Integer start, Integer end){
+	public List<Info> getInfoByRange(Integer start, Integer offset , HttpServletResponse response , HttpSession session){
 		List<Info> infos = new ArrayList<Info>();
 		
 			//TODO
@@ -249,15 +253,50 @@ public class InfoServiceImpl implements InfoService {
 		    //2.查询到最火的数据后，再 union 其他数据，按时间倒叙，新的在上面，且数据的ID不等于最火数据的Id（因为已经查出来放在了最前面）
 		    //3.获得 start ~ end 的数据 ，以上皆为一条sql完成
 			//4.进行异常捕获，不做任何处理，失败了返回null,成功返回  infos
+			//5.将一个用户的点赞信息设置进cookies缓存，避免在详情页面再查询
 		try {
-			infos=infoMapper.getInfoByRange(start,end);
+			infos=infoMapper.getInfoByRange(start,offset);
+			setCookies(session,response,infos);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			LogManager.getLogger().debug("评论失败！");
+			LogManager.getLogger().debug("获得info失败！");
 			e.printStackTrace();
 		}
 		return infos;
 	}
+	private void setCookies(HttpSession session, HttpServletResponse response, List<Info> infos) {
+		User user  = (User) session.getAttribute("user");
+		System.out.println("USer:"+user);
+		if(user == null){
+			for (Info info : infos) {
+				Cookie cookie = new Cookie("likeInfo_"+info.getInfoId(),false+"");
+				response.addCookie(cookie);
+				Cookie likeCountCookie = new Cookie("likeCount_"+info.getInfoId(),info.getLikeinfo().size()+"");
+				response.addCookie(likeCountCookie);
+				Cookie commentCountCookie = new Cookie("commentCount_"+info.getInfoId(),info.getCommentCount()+"");
+				response.addCookie(commentCountCookie);
+			}
+		}else{
+			for (Info info : infos) {
+				Cookie likeCountCookie = new Cookie("likeCount_"+info.getInfoId(),info.getLikeinfo().size()+"");
+				response.addCookie(likeCountCookie);
+				Cookie commentCountCookie = new Cookie("commentCount_"+info.getInfoId(),info.getCommentCount()+"");
+				response.addCookie(commentCountCookie);
+				List<LikeInfo> likes = info.getLikeinfo();
+				for (LikeInfo likeInfo : likes) {
+					if(likeInfo.getOpenId().equals(user.getOpenid()) && likeInfo.getInfoId()==info.getInfoId() ){
+						Cookie cookie = new Cookie("likeInfo_"+info.getInfoId(),true+"");
+						response.addCookie(cookie);
+						break;
+					}
+				}
+			}
+		}
+	}
+
+
+
+
+
 	/*lxd*/
 	@Override
 	public List<Comment> getCommentByRange(Integer infoId, Integer start, Integer end) {
@@ -269,7 +308,6 @@ public class InfoServiceImpl implements InfoService {
 		try {
 			comments=infoMapper.getCommentByRange(infoId,start,end);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return comments;
@@ -278,9 +316,21 @@ public class InfoServiceImpl implements InfoService {
 	
 	
 	
-	public List<Info> getThemeInfoByRange(Integer themeId,Integer start, Integer end) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Info> getThemeInfoByRange(Integer themeId,Integer start, Integer end, HttpServletResponse response , HttpSession session) {
+		List<Info> themeInfos = null;
+		
+		try {
+			themeInfos = infoMapper.getThemeInfoByRange(themeId,start,end);
+			setCookies(session, response, themeInfos);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return themeInfos;
 	}
+
+
+
+
 
 }

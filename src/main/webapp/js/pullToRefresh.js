@@ -1,42 +1,36 @@
-//author wallace 华dee
-//2015 7 3 
-//qq447363121陈国华
+function getValFromSheet(value,obj){
+	if(typeof window.getComputedStyle!='undefined'){  //w3c
+		value=window.getComputedStyle(obj,null)["height"];
+	}else if(typeof this.elements[obj].currentStyle!='undefined'){  //IE
+		value=this.elements[obj].currentStyle["height"];		
+	}
+	
+	return removePx(value);	
+}
+function removePx(value){	
+	return parseInt(value);
+}
 var refresher = {
+	lock : 1,
+	result:false,
+	isBottom:false,
+	srollEnd:false,
+	/*scollDistance:0,*/
 	info : {
-		"pullDownLable" : "Pull down to refresh...",
-		"pullingDownLable" : "Release to refresh...",
 		"pullUpLable" : "上拉加载更多...",
 		"pullingUpLable" : "温柔的太阳君和他的小伙伴们 微信：a524294514",
-		"loadingLable" : "Loading..."
+		"loadingLable" : "Loading...",
+		"atBottom":"没了"
 	},
 	init : function(parameter) {
-		var wrapper = document.getElementById(parameter.id);
-		console.info(document.getElementById("scroller"))
 		
-		if(document.getElementById("scroller") == null){
-			var div = document.createElement("div");
-			div.id = "scroller";
-			wrapper.appendChild(div);
-			var scroller = document.getElementById("scroller");
-			var list = document.querySelector("#" + parameter.id + " ul")
-			scroller.insertBefore(list, scroller.childNodes[0]);
+		var inner_obj=document.getElementById("inner_div");
+		var out_obj = document.getElementById("out_div");
+		if($(inner_obj).height()>$(out_obj).height()){
+			var out_height=0;
+			var inner_height=0;	
 			
-			var pullDown = document.createElement("div");
-			pullDown.id = "pullDown";
-			var loader = document.createElement("div");
-			loader.className = "loader";
-			for (var i = 0; i < 4; i++) {
-				var span = document.createElement("span");
-				loader.appendChild(span);
-			}
-			pullDown.appendChild(loader);
-
-			var pullDownLabel = document.createElement("div");
-			pullDownLabel.className = "pullDownLabel";
-			pullDown.appendChild(pullDownLabel);
-
-			scroller.insertBefore(pullDown, scroller.childNodes[0]);
-
+			//创建上拉块
 			var pullUp = document.createElement("div");
 			pullUp.id = "pullUp";
 			var loader = document.createElement("div");
@@ -46,141 +40,150 @@ var refresher = {
 				loader.appendChild(span);
 			}
 			pullUp.appendChild(loader);
-
+			
+	
 			var pullUpLabel = document.createElement("div");
+			$(pullUpLabel).css("margin-bottom","10px")
 			pullUpLabel.className = "pullUpLabel";
 			var content = document.createTextNode(refresher.info.pullUpLable);
 			pullUpLabel.appendChild(content);
 			pullUp.appendChild(pullUpLabel);
-
-			scroller.appendChild(pullUp);
-			// create dom above
-			// create dom ,you can wirte it yourself
+			inner_obj.appendChild(pullUp);
+			
+			var pullUpEl = document.getElementById('pullUp');
+			var pullUpOffset = pullUpEl.offsetHeight;
+			
+				this.scrollIt(parameter, pullUpEl,
+						pullUpOffset,inner_height,out_height,inner_obj,out_obj);
 		}
+	},
+
+	scrollIt : function(parameter,  pullUpEl,
+			pullUpOffset,inner_height,out_height,inner_obj,out_obj) {
 		
-		var pullDownEl = document.getElementById('pullDown');
-		var pullDownOffset = pullDownEl.offsetHeight;
-		var pullUpEl = document.getElementById('pullUp');
-		var pullUpOffset = pullUpEl.offsetHeight;
-		// parameter
-		this.scrollIt(parameter, pullDownEl, pullDownOffset, pullUpEl,
-				pullUpOffset);
+	var lastScoll 	//上次滚动的位置
+	var scollLock = recordStart = 1; //滚动计时器锁
+	var scollCount = 0 //位置相同的次数  
+	var scollStartP = 0; //开始滚动的位置  ， 结束滚动的位置
+	var isTouch,isTouchStart = false; //手指是否在屏幕上，   用户是否曾经把手指放到屏幕上
+	document.onscroll=function(){
+		if (!refresher.isBottom) {
+			refresher.srollEnd = false;
+			/*if(recordStart==1){ //记录开开始滚动
+				recordStart--
+				scollStartP = scrollY;
+			}
+			//console.info("lastScoll:"+lastScoll+"  scrollY:"+scrollY)
+			 */
+			/**
+			 * 判断惯性滑动是否停止
+			 * 1.第一种情况， 当用户手指已经不在屏幕上面，且之前已经确定触摸了屏幕， 计时器只能跑一次，所以加锁。
+			 * 2.还有第二种情况，从滑动开始到结束，用户都是触摸着屏幕（用户的手一直在屏幕上面）
+			 */
+			/*if(! isTouch && isTouchStart && scollLock==1){
+				scollLock--;
+				var detectScollEnd = setInterval(function(){
+					if(typeof(lastScoll)=="undefined" ||! refresher.srollEnd ){
+						if(lastScoll == scrollY && scollCount>=1){
+							//alert("scollEnd  lastScoll:"+lastScoll+"  minus:"+(lastScoll-scollStartP));
+							//refresher.scollDistance = lastScoll-scollStartP
+							clearInterval(detectScollEnd);
+							refresher.srollEnd =  true; //已经滚动结束
+						//	alert(refresher.srollEnd)
+							scollCount=0;
+							isTouchStart = false; //切记，这个要在这里还原 isTouch在touchend中还原
+							scollLock=1;
+							//recordStart=1;
+						}else if(lastScoll == scrollY && !refresher.srollEnd){
+							scollCount++;
+							//console.info(scollCount)
+						}else{
+							lastScoll = scrollY;
+						}
+					}
+				},50)
+			}*/
+			refresher.onScrolling(pullUpEl, pullUpOffset, inner_height,
+					out_height, inner_obj, out_obj);// element
+			}
+		}
+	
+	addEventListener("touchstart", function(e){
+		var touch = e.targetTouches[0];
+		isTouch=true;
+		isTouchStart = true;
+		//scollStartP = scrollY;
+	})
+	
+		
+	addEventListener("touchend",function(e){
+		
+			isTouch = false;
+			refresher.onPulling(pullUpEl, parameter.pullUpAction);
+			if (pullUpEl.className.match('loading')) {
+				refresher.lock = 0;
+				var timer = setInterval(function() {
+					if (refresher.result || refresher.isBottom) {
+						refresher.onRelease(pullUpEl);
+						clearInterval(timer)
+						refresher.result = false;
+					}
+
+				}, 1000);
+
+			} else {
+				refresher.onRelease(pullUpEl);
+			}
+	})
 		
 	},
 
-	scrollIt : function(parameter, pullDownEl, pullDownOffset, pullUpEl,
-			pullUpOffset) {
-		
-		myScroll = new iScroll(parameter.id,
-				{
-					useTransition : true,
-					vScrollbar : false, // hide the iscroll v bar
-					topOffset : pullDownOffset,
-					onRefresh : function() {
-						refresher.onRelease(pullDownEl, pullUpEl);
-					},
-					onScrollMove : function() {
-						refresher.onScrolling(this, pullDownEl, pullUpEl,
-								pullUpOffset);// element
-					},
-					onScrollEnd : function() {
-						refresher.onPulling(pullDownEl,
-								parameter.pullDownAction, pullUpEl,
-								parameter.pullUpAction);
-					},
-				});
-		
-		console.info(myScroll.maxScrollY)
-		//alert(myScroll.maxScrollY)
-		
-		setTimeout(
-				function() {
-					pullDownEl.querySelector('.pullDownLabel').innerHTML = refresher.info.pullDownLable
-				}, 300);
-		document.addEventListener('touchmove', function(e) {
-			e.preventDefault();
-		}, false);
+	onScrolling : function( pullUpEl, pullUpOffset,inner_height,out_height,inner_obj,out_obj) {
+			
+			inner_height=getValFromSheet(inner_height,inner_obj);
+			out_height = getValFromSheet(out_height,out_obj);
+			/*console.info("(inner_height):"+(inner_height));
+			console.info("scrolly:"+scrollY);
+			console.info("scrollY+out_height:"+(scrollY+out_height));*/
+			if(refresher.lock == 1){
+				
+				if(scrollY+out_height<inner_height){
+					pullUpEl.className = '';
+					pullUpEl.querySelector('.pullUpLabel').innerHTML = refresher.info.pullUpLable;
+				}	
+				
+				if (scrollY+out_height>=inner_height) {
+					//e.y < (e.maxScrollY - pullUpOffset)
+					document.getElementById("pullUp").style.display = "block";
+					pullUpEl.className = 'flip';
+				//	console.info("pulling up");
+					pullUpEl.querySelector('.pullUpLabel').innerHTML = refresher.info.pullingUpLable;
+				}
+			}	
 	},
 
-	// things loader css on scrolling,you can wirte it yourself
-	onScrolling : function(e, pullDownEl, pullUpEl, pullUpOffset) {
-		/* console.info("e.scrollerH:"+e.scrollerH +" e.wrapperH:" +
-		 e.wrapperH+" e.minScrollY:"+e.minScrollY +" pullUpOffset:" +
-		 pullUpOffset+" e.maxScrollY:" + e.maxScrollY);*/
-		if (e.y > -(pullUpOffset)) {
-			pullDownEl.className = '';
-			pullDownEl.querySelector('.pullDownLabel').innerHTML = refresher.info.pullDownLable;
-			e.minScrollY = -pullUpOffset;
-		}
-		if (e.y > 0) {
-			pullDownEl.className = 'flip';
-			pullDownEl.querySelector('.pullDownLabel').innerHTML = refresher.info.pullingDownLable;
-			e.minScrollY = 0;
-		}
-		if (e.scrollerH < e.wrapperH && e.y < (e.minScrollY - pullUpOffset)
-				|| e.scrollerH > e.wrapperH
-				&& e.y < (e.maxScrollY - pullUpOffset)) {
-			document.getElementById("pullUp").style.display = "block";
-			pullUpEl.className = 'flip';
-			pullUpEl.querySelector('.pullUpLabel').innerHTML = refresher.info.pullingUpLable;
-		}
-		if (e.scrollerH < e.wrapperH && e.y > (e.minScrollY - pullUpOffset)
-				&& pullUpEl.className.match('flip') || e.scrollerH > e.wrapperH
-				&& e.y > (e.maxScrollY - pullUpOffset)
-				&& pullUpEl.className.match('flip')) {
-			document.getElementById("pullUp").style.display = "none";
-			pullUpEl.className = '';
-			pullUpEl.querySelector('.pullUpLabel').innerHTML = refresher.info.pullUpLable;
-		}
+	// things loader css on pulling,you can wirte it yourself
+	onPulling : function(pullUpEl, pullUpAction) {
+				if (pullUpEl.className.match('flip')) {
+					pullUpEl.className = 'loading';
+					pullUpEl.querySelector('.pullUpLabel').innerHTML = refresher.info.loadingLable;
+					pullUpEl.querySelector('.loader').style.display = "block"
+					pullUpEl.style.lineHeight = "20px";
+					if (pullUpAction)
+						pullUpAction(); // Execute custom function (ajax call?)
+				}
 	},
 
 	// things loader css on release,you can wirte it yourself
-	onRelease : function(pullDownEl, pullUpEl) {
-		if (pullDownEl.className.match('loading')) {
-			pullDownEl.className = '';
-			pullDownEl.querySelector('.pullDownLabel').innerHTML = refresher.info.pullDownLable;
-			pullDownEl.querySelector('.loader').style.display = "none"
-			pullDownEl.style.lineHeight = pullDownEl.offsetHeight + "px";
-		}
+	//恢复下拉或者上拉标签的
+	onRelease : function(pullUpEl) {
 		if (pullUpEl.className.match('loading')) {
 			pullUpEl.className = '';
 			pullUpEl.querySelector('.pullUpLabel').innerHTML = refresher.info.pullUpLable;
 			pullUpEl.querySelector('.loader').style.display = "none"
-			pullUpEl.style.lineHeight = pullDownEl.offsetHeight + "px";
+				// 44 底部导航的高度
+			pullUpEl.style.lineHeight = pullUpEl.offsetHeight - 44 + "px";
 		}
-	},
-	// things loader css on pulling,you can wirte it yourself
-	onPulling : function(pullDownEl, pullDownAction, pullUpEl, pullUpAction) {
-		if (pullDownEl.className.match('flip')) {
-			pullDownEl.className = 'loading';
-			pullDownEl.querySelector('.pullDownLabel').innerHTML = refresher.info.loadingLable;
-			pullDownEl.querySelector('.loader').style.display = "block"
-			pullDownEl.style.lineHeight = "20px";
-			if (pullDownAction)
-				pullDownAction(); // Execute custom function (ajax call?)
-		}
-		if (pullUpEl.className.match('flip')) {
-			pullUpEl.className = 'loading';
-			pullUpEl.querySelector('.pullUpLabel').innerHTML = refresher.info.loadingLable;
-			pullUpEl.querySelector('.loader').style.display = "block"
-			pullUpEl.style.lineHeight = "20px";
-			if (pullDownAction)
-				pullUpAction(); // Execute custom function (ajax call?)
-		}
+		refresher.lock = 1;
 	}
 }
-
-// 防止iscroll 阻止了input等组件的正常使用
-function allowFormsInIscroll() {
-	[].slice.call(document.querySelectorAll('input, select, button')).forEach(
-			function(el) {
-				el.addEventListener(('ontouchstart' in window) ? 'touchstart'
-						: 'mousedown', function(e) {
-					e.stopPropagation();
-
-				})
-			})
-}
-document.addEventListener('DOMContentLoaded', allowFormsInIscroll, false);
-
-

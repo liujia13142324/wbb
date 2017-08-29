@@ -255,10 +255,13 @@
 												function($1) {
 													var url = emotionsMap[$1];
 													if (url) {
-														return '<img class="sina-emotion" src="'
+														/*return '<img class="sina-emotion" src="'
 																+ url
 																+ '" alt="'
-																+ $1 + '" />';
+																+ $1 + '" />';*/
+														return '<img class="sina-emotion" src="'
+														+ url
+														+ '" />';
 													}
 													return $1;
 												});

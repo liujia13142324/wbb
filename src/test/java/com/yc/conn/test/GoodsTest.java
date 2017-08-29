@@ -8,8 +8,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 
-import com.l.wbb.bean.Comment;
 import com.l.wbb.bean.GoodsComment;
+import com.l.wbb.bean.User;
 import com.l.wbb.service.GoodsService;
 
 @ContextConfiguration("classpath:spring.xml")
@@ -35,7 +35,7 @@ public class GoodsTest {
 	public void getCommentByRangeTest(){
 		ApplicationContext cxt=new ClassPathXmlApplicationContext("spring.xml");
 		goodsService=(GoodsService) cxt.getBean("goodsService");
-		System.out.println(goodsService.getCommentByRange(11112, 0, 10));
+		System.out.println(goodsService.getCommentByRange(1, 0, 10));
 	}
 	@Test
 	public void getCategoryGoodsByRangeTest(){
@@ -65,7 +65,9 @@ public class GoodsTest {
 	public void publishComentTest(){
 		ApplicationContext cxt=new ClassPathXmlApplicationContext("spring.xml");
 		goodsService=(GoodsService) cxt.getBean("goodsService");
-		GoodsComment comment=new GoodsComment("fbjdbfjsbfjsad", 11112, "xxxxxx", new Date(1000));
+		User user = new User();
+		user.setOpenid("aaaaaa");
+		GoodsComment comment=new GoodsComment(user, 1, "xxxxxx", new Date(1000));
 		System.out.println(goodsService.publishComent(comment));
 	}
 }

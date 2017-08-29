@@ -30,7 +30,7 @@ function Hashtable() {
 var emotions = new Array();
 var categorys = new Array();// 分组
 var uSinaEmotionsHt = new Hashtable();
-
+var loadSuccess = false
 // 初始化缓存，页面仅仅加载一次就可以了
 $(function() {
 	var app_id = '1362404091';
@@ -53,6 +53,7 @@ $(function() {
 				});
 				uSinaEmotionsHt.put(data[i].phrase, data[i].icon);
 			}
+			loadSuccess = true;
 		}
 	});
 });
@@ -79,147 +80,71 @@ function setPositonUp(target,position){
 		var topPx =  target.offset().top - target.height() ;
 		var newTop = topPx -$('#emotions').height();
 		$('#emotions').css("top",newTop) ;
+		return newTop;
 	}
-	return newTop;
+}
+function initEmotion(target,position,this_){
+	//console.info(this_)
+	var eTop 
+	var newTop
+	if(position ==1 ){
+		eTop = target.offset().top + target.height() + 15;
+	}else if(position == 0){
+		eTop = this_.offset().top - target.height() ;
+		if($('#emotions').height()!=null){
+			eTop = newTop;
+		}
+	}
+	var eLeft = 5;
+	
+	if($('#emotions .categorys')[0]){
+		$('#emotions').css({top: eTop, left: eLeft});
+		$('#emotions').toggle();
+		return;
+	}
+	$('body').append('<div id="emotions"></div>');
+	$('#emotions').css({top: eTop, left: eLeft});
+	$('#emotions').html('<div>正在加载，请稍候...</div>');
+	$('#emotions').click(function(event){
+		event.stopPropagation();
+	});
+	$('#emotions').html('<div style="float:right"><a href="javascript:void(0);" id="prev">&laquo;</a><a href="javascript:void(0);" id="next">&raquo;</a></div><div class="categorys"></div><div class="container"></div>');
+	$('#emotions #prev').click(function(e){
+		e.stopPropagation();
+		showCategorys(cat_page - 1);
+		
+	});
+	$('#emotions #next').click(function(e){
+		e.stopPropagation();
+		showCategorys(cat_page + 1);
+	});
 }
 
+
 (function($){
-	$.fn.SinaEmotion = function(target,position){
+	$.fn.SinaEmotion = function(target,position,this_){
 		var cat_current;
 		var cat_page;
+		//console.info(this_)
 		$(this).click(function(event){
-			event.stopPropagation();
 			//写死，防止失去焦点
-			$("#comment_text").focus();
-			var eTop 
-			var newTop
-			if(position ==1 ){
-				eTop = target.offset().top + target.height() + 15;
-			}else if(position == 0){
-				eTop = target.offset().top - target.height() ;
-				if($('#emotions').height()!=null){
-					eTop = newTop;
-				}
-			}
-			var eLeft = target.offset().left - 1;
+			//$("#comment_text").focus();
+			//当有滚动的时候，
 			
-			if($('#emotions .categorys')[0]){
-				$('#emotions').css({top: eTop, left: eLeft});
-				$('#emotions').toggle();
-				return;
-			}
-			$('body').append('<div id="emotions"></div>');
-			
-			$('#emotions').css({top: eTop, left: eLeft});
-			
-			$('#emotions').html('<div>正在加载，请稍候...</div>');
-			$('#emotions').click(function(event){
+			setTimeout(function(){
 				event.stopPropagation();
-				$("#comment_text").focus();
-			});
-			$('#emotions').html('<div style="float:right"><a href="javascript:void(0);" id="prev">&laquo;</a><a href="javascript:void(0);" id="next">&raquo;</a></div><div class="categorys"></div><div class="container"></div>');
-			$('#emotions #prev').click(function(){
-				showCategorys(cat_page - 1);
+				initEmotion(target,position,this_)
 				
-			});
-			$('#emotions #next').click(function(){
-				showCategorys(cat_page + 1);
-			});
-			
-			
-			// 下面是让表情框正常滑动的代码, 缺点：--》每滑倒两端的时候要额外滑动一次才能恢复正常滑动
-			var container = document.getElementsByClassName("container")[0];
-			var startx, starty;
-			var direct;
-		    //获得角度
-		    function getAngle(angx, angy) {
-		        return Math.atan2(angy, angx) * 180 / Math.PI;
-		    };
-
-		    //根据起点终点返回方向 1向上 2向下 3向左 4向右 0未滑动
-		    function getDirection(startx, starty, endx, endy) {
-		        var angx = endx - startx;
-		        var angy = endy - starty;
-		        var result = 0;
-
-		        //如果滑动距离太短
-		        if (Math.abs(angx) < 2 && Math.abs(angy) < 2) {
-		            return result;
-		        }
-
-		        var angle = getAngle(angx, angy);
-		        if (angle >= -135 && angle <= -45) {
-		            result = 1;
-		        } else if (angle > 45 && angle < 135) {
-		            result = 2;
-		        } else if ((angle >= 135 && angle <= 180) || (angle >= -180 && angle < -135)) {
-		            result = 3;
-		        } else if (angle >= -45 && angle <= 45) {
-		            result = 4;
-		        }
-
-		        return result;
-		    }
-		    
-		    function printDirectionInfo(direction){
-		    	switch (direction) {
-	            case 0:
-	                console.info("未滑动！");
-	                break;
-	            case 1:
-	            	 console.info("向上！")
-	                break;
-	            case 2:
-	            	 console.info("向下！")
-	                break;
-	            case 3:
-	            	 console.info("向左！")
-	                break;
-	            case 4:
-	            	 console.info("向右！")
-	                break;
-	        }
-		    }
-		    
-		    //手指接触屏幕
-		    container.addEventListener("touchstart", function(e) {
-		        startx = e.touches[0].pageX;
-		        starty = e.touches[0].pageY;
-		    }, false);
-		    //手指离开屏幕
-		    container.addEventListener("touchend", function(e) {
-		        var endx, endy;
-		        endx = e.changedTouches[0].pageX;
-		        endy = e.changedTouches[0].pageY;
-		        var direction = getDirection(startx, starty, endx, endy);
-		        direct=direction;
-		        printDirectionInfo(direction);
-		    }, false);
-			
-			
-		    container.addEventListener("touchmove",function(e){
-				e.stopPropagation();
-				if(this.scrollTop >= this.scrollHeight-this.offsetHeight){
-					console.info("到底了");
-					if(direct == 1){
-						 e.preventDefault()
-					}
-				}
-				if(this.scrollTop<=0 ){
-					console.info("到顶了");
-					if(direct == 2){
-						 e.preventDefault()
-					}
-				}
-			})
-			
-			showCategorys();
-			showEmotions();
-			
-			//如果想上打开表情框，需要重新定位
-			newTop = setPositonUp(target,position)
+				showCategorys();
+				showEmotions();
+				
+				//如果想上打开表情框，需要重新定位
+				newTop = setPositonUp(this_,position)
+			}, 200)
 			
 		});
+		initEmotion(target,position,this_)
+		$('#emotions').css("display","none");
 		$('body').click(function(){
 			$('#emotions').remove();
 		});
@@ -245,7 +170,6 @@ function setPositonUp(target,position){
 			return this;
 		}
 		function showCategorys(){
-			// 写死
 			var pageSize = 3;
 			var page = arguments[0]?arguments[0]:0;
 			if(page < 0 || page >= categorys.length / pageSize){
@@ -254,16 +178,19 @@ function setPositonUp(target,position){
 			$('#emotions .categorys').html('');
 			cat_page = page;
 			for(var i = page * pageSize; i < (page + 1) * pageSize && i < categorys.length; ++i){
-				$('#emotions .categorys').append($('<a href="javascript:void(0);">' + categorys[i] + '</a>'));
+				var a = document.createElement("a");
+				$(a).text(categorys[i]);
+				$('#emotions .categorys').append(a);
 			}
-			$('#emotions .categorys a').click(function(){
+			$('#emotions .categorys a').click(function(e){
+				e.stopPropagation();
 				showEmotions($(this).text());
-				setPositonUp(target,position)
+				setPositonUp(this_,position)
 			});
 			$('#emotions .categorys a').each(function(){
 				if($(this).text() == cat_current){
 					$(this).addClass('current');
-					setPositonUp(target,position)
+					setPositonUp(this_,position)
 				}
 			});
 		}
@@ -277,6 +204,9 @@ function setPositonUp(target,position){
 			}
 			$('#emotions .container a').click(function(){
 				target.insertText($(this).attr('title'));
+				//插入了表情后，要手动设置Button的样式
+				$("#comment_button").removeAttr("disabled")
+				$("#comment_button").css("background","#0a8af2")
 				$('#emotions').remove();
 			});
 			 
@@ -290,18 +220,6 @@ function setPositonUp(target,position){
 	}
 })(jQuery);
 
-
-//点击文本框，focus后软键盘不会遮住文本框 ---> 适用于安卓
-if (/Android [4-6]/.test(navigator.appVersion)) {
-	   window.addEventListener('resize', function () {
-		   alert("resize");
-	     if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
-	        window.setTimeout(function () {
-	          document.activeElement.scrollIntoViewIfNeeded()
-	        }, 0)
-	      }
-	   })
-	}
 
 /*let u = navigator.userAgent, app = navigator.appVersion;  
 let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端  

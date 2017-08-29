@@ -3,13 +3,14 @@ package com.l.wbb.bean;
 import java.util.Date;
 
 public class GoodsComment {
-	private String openId ;
+	private User user ;
+	
 	private Integer goodsId;
 	private String commentContent;
 	private Date publishDate;
-	public GoodsComment(String openId, Integer goodsId, String commentContent, Date publishDate) {
+	public GoodsComment(User user, Integer goodsId, String commentContent, Date publishDate) {
 		super();
-		this.openId = openId;
+		this.user = user;
 		this.goodsId = goodsId;
 		this.commentContent = commentContent;
 		this.publishDate = publishDate;
@@ -19,14 +20,15 @@ public class GoodsComment {
 	}
 	@Override
 	public String toString() {
-		return "Comment [openId=" + openId + ", goodsId=" + goodsId + ", commentContent=" + commentContent
+		return "Comment [user=" + user + ", goodsId=" + goodsId + ", commentContent=" + commentContent
 				+ ", publishDate=" + publishDate + "]";
 	}
-	public String getOpenId() {
-		return openId;
+	
+	public User getUser() {
+		return user;
 	}
-	public void setOpenId(String openId) {
-		this.openId = openId;
+	public void setUser(User user) {
+		this.user = user;
 	}
 	public Integer getGoodsId() {
 		return goodsId;

@@ -4,31 +4,38 @@ import java.util.Date;
 
 
 public class Comment {
-	private String openId ;
+	private User user ;
+	
+	
 	private Integer infoId;
 	private String commentContent;
 	private Date publishDate;
-	public Comment(String openId, Integer infoId, String commentContent, Date publishDate) {
-		this.openId = openId;
+	
+	public Comment(User user, Integer infoId, String commentContent, Date publishDate) {
+		super();
+		this.user = user;
 		this.infoId = infoId;
 		this.commentContent = commentContent;
 		this.publishDate = publishDate;
-	
 	}
+
 	public Comment() {
 	}
 	
 	@Override
 	public String toString() {
-		return "Comment [openId=" + openId + ", infoId=" + infoId + ", commentContent=" + commentContent
-				+ ", publishDate=" + publishDate + "]";
+		return "Comment [user=" + user + ", infoId=" + infoId + ", commentContent=" + commentContent + ", publishDate="
+				+ publishDate + "]";
 	}
-	public String getOpenId() {
-		return openId;
+
+	public User getUser() {
+		return user;
 	}
-	public void setOpenId(String openId) {
-		this.openId = openId;
+
+	public void setUser(User user) {
+		this.user = user;
 	}
+
 	public Integer getInfoId() {
 		return infoId;
 	}

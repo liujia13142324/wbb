@@ -26,8 +26,8 @@ public class CenterHandler {
 	public String getUserInfo(String code,HttpSession session){
 	
 		try {
-			//User user = userService.findUser(code);
-			User user = new User("aaaaaa","aaaaaa",1,"img/QQ.png");
+			User user = userService.findUser(code);
+			//User user = new User("aaaaaa","aaaaaa",1,"img/QQ.png");
 			if (user.getOpenid()!=null){
 				userService.checkUser(user);
 				session.setAttribute("user", user);

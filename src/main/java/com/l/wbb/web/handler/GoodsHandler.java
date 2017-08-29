@@ -1,9 +1,13 @@
 package com.l.wbb.web.handler;
 
+import java.security.Provider.Service;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,11 +15,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.l.wbb.bean.Category;
-import com.l.wbb.bean.Comment;
 import com.l.wbb.bean.Goods;
 import com.l.wbb.bean.GoodsComment;
 import com.l.wbb.bean.GoodsImage;
-import com.l.wbb.bean.Info;
+import com.l.wbb.bean.User;
 import com.l.wbb.service.GoodsService;
 
 @Controller
@@ -31,11 +34,11 @@ public class GoodsHandler {
 		List<Category> categories = goodsService.getCategory();
 		List<Goods> products = null;
 		if (categoryId != null) {
-			products = goodsService.getCategoryGoodsByRange(categoryId,1,10);
+			products = goodsService.getCategoryGoodsByRange(categoryId,0,10);
 		}else if(searchCondition != null){
 			products = goodsService.getGoodsBySearch(searchCondition);
 		} else {
-			products = goodsService.getGoodsByRange(1, 10);
+			products = goodsService.getGoodsByRange(0, 10);
 		}
 
 		if (categories != null && products != null) {
@@ -47,49 +50,76 @@ public class GoodsHandler {
 		return "/fail";
 	}
 
-	@RequestMapping("/userHistory")
-	public String getUserInfo(String openid, HttpServletRequest request) {
-		List<Goods> userHistory = goodsService.getUserHistory(openid);
-		request.setAttribute("userHistory", userHistory);
-		return "user/userGoodsHistory";
+	@RequestMapping("/getCategoryGoods")
+	@ResponseBody
+	public List<Goods> getGoodsByCategory(Integer categoryId ){
+		if(categoryId>0)
+			return  goodsService.getCategoryGoodsByRange(categoryId,0,10);
+		else
+			return goodsService.getGoodsByRange(0, 10);
 	}
 	
-	@RequestMapping("/detailGoods")
-	public String getDetailInfo(Goods goods,  HttpServletRequest request){
+	@RequestMapping("/getGoodsBySearch")
+	@ResponseBody
+	public List<Goods> getGoodsBySearch(String searchCondition ){
+		return goodsService.getGoodsBySearch(searchCondition);
+	}
 	
-		List<GoodsComment> comments = goodsService.getCommentByRange(goods.getGoodsId(),1,10);
+	
+	@RequestMapping("/userHistory")
+	public String getUserInfo(HttpSession session, HttpServletRequest request) {
+		User user = (User) session.getAttribute("user");
+		if(user!=null){
+			List<Goods> userHistory = goodsService.getUserHistory(user.getOpenid());
+			request.setAttribute("products", userHistory);
+			return "page/user/userGoodsHistory";
+		}else{
+			return"redirect:/center/enter";
+		}
+		
+	}
+	
+	@SuppressWarnings({ "unused", "unused" })
+	@RequestMapping("/detailGoods")
+	public String getDetailInfo(Goods goods,  HttpServletRequest request , HttpSession session){
+	
+		List<GoodsComment> comments = goodsService.getCommentByRange(goods.getGoodsId(),0,10);
+		
+		
 		List<GoodsImage> subImgs = goodsService.getSubImage(goods.getMainImage().getImgId());
 		subImgs.add(0, goods.getMainImage());
-		request.setAttribute("goods", goods);
+		//LogManager.getLogger().debug("请求："+goods);
+	
+		request.setAttribute("lastGoods", goods);
 		request.setAttribute("imgs", subImgs);
 		request.setAttribute("comments", comments);
+		return "page/goodsDetail";
 		
-		return "goodsDetail";
 	}
 
 	
 	@RequestMapping("/getGoodsByScroll")
 	@ResponseBody
-	public List<Goods> getInfoByScroll(Integer start , Integer end){
+	public List<Goods> getInfoByScroll(Integer start , Integer offset){
 		 // start 起码从11开始 end起码从20开始
-		return  goodsService.getGoodsByRange(start, end);
+		return  goodsService.getGoodsByRange(start, offset);
 		
 	}
 	
 	@RequestMapping("/getCategoryGoodsByScroll")
 	@ResponseBody
-	public List<Goods> getCategoryInfoByScroll(Integer categoryId ,Integer start , Integer end){
+	public List<Goods> getCategoryInfoByScroll(Integer categoryId ,Integer start , Integer offset){
 		 // start 起码从11开始 end起码从20开始
-		return  goodsService.getCategoryGoodsByRange(categoryId, start, end);
+		return  goodsService.getCategoryGoodsByRange(categoryId, start, offset);
 		
 	}
 	
 	
 	@RequestMapping("/getGoodsCommentByScroll")
 	@ResponseBody
-	public List<GoodsComment> getCommentByScroll(Integer infoId , Integer start , Integer end){
+	public List<GoodsComment> getCommentByScroll(Integer goodsId , Integer start , Integer offset){
 		// start 起码从11开始 end起码从20开始
-		return  goodsService.getCommentByRange(infoId,start, end);
+		return  goodsService.getCommentByRange(goodsId,start, offset);
 		
 	}
 	
@@ -105,13 +135,25 @@ public class GoodsHandler {
 	
 	@RequestMapping("/publishGoodsComment")
 	@ResponseBody
-	public String publishComment(GoodsComment comment){
+	public Object publishComment(GoodsComment comment,HttpSession session){
 		
-		if(goodsService.publishComent(comment)){
-			return "success";
+		User user = (User)session.getAttribute("user");
+		if(user != null){
+			comment.setUser(user);
+			comment.setPublishDate(new Date());
+			if(goodsService.publishComent(comment)){
+				return comment;
+			}else{
+				return "fail";
+			}
+		}else{
+			return "unlogin";
 		}
-		
-		return "fail";
+	}
+	
+	@RequestMapping("/enterPublishGoods")
+	public String enterPublishGoods(GoodsComment comment){
+		return "page/user/publishGoods";
 	}
 	
 	

@@ -14,18 +14,21 @@ body {
 
 .header_title {
 	clear: both;
+	cursor: pointer;
 }
 
 .header_right {
 	float: right;
 	margin-right: 10px;
 	color: #50C5F5;
+	cursor:pointer;
 }
 
 .header_icon {
 	height: 50px;
 	line-height: 50px;
 	display: inline-block;
+	cursor:pointer;
 }
 
 .publish_div {

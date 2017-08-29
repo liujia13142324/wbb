@@ -22,7 +22,7 @@
 		<h3>are you kidding me?</h3>
 	</div>
 </body>
-<script src="js/jquery.min.js"></script>
+<script src="js/jquery-2.1.4.min.js"></script>
 <script src="js/backStretch.min.js"></script>
 <script>
 	var isload=false;

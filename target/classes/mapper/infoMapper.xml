@@ -12,7 +12,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	
 	<insert id="insertInfo" parameterType="Info" >
-		insert into info(openid,themeId,infoId,infoContent,publishTime) values(#{user.openid},#{themeId},nextval("infoId"),#{infoContent},now());
+		<selectKey keyProperty="infoId" keyColumn="infoId" resultType="int" order="BEFORE">
+			select nextval("infoId") infoId
+		</selectKey>
+		insert into info(openid,themeId,infoId,infoContent,publishTime) values(#{user.openid},#{themeId},#{infoId},#{infoContent},now());
 	</insert>
 	
 	
@@ -26,17 +29,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	
-	
 	<!-- resultMap接收结果集 -->
-	<select id="getUserHistory" parameterType="String" resultMap="UserInfoMap">
-	     select openid,themeId,infoId,infoContent,publishTime from info where openid = #{openid}
+	<select id="getUserHistory" parameterType="String" resultMap="InfoMap">
+	     select openid,themeId,infoId,infoContent,publishTime,commentCount from allinfo where openid = #{openid}
 	</select>
 	
-	<!-- type:处理结果最终类型               id：映射结果处理的名字 -->
-	<resultMap type="Info" id="UserInfoMap">
-	    <id property="infoId" column="infoId"/><!-- 传入的参数 -->
-	    <collection property="imgs" column="infoId" select="getImgByOpenId"/>
-	</resultMap>
 	
 	<select id="getImgByOpenId" parameterType="Integer" resultType="Image">
 	     select infoId,imgPath from image where infoId = #{infoId}
@@ -47,17 +44,33 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- resultMap接收结果集 -->
-	<select id="getInfoByTheme" parameterType="Integer" resultMap="InfoMap">
-	     select openid,themeId,infoId,infoContent,publishTime from info where themeId=#{themeId}
+	<select id="getThemeInfoByRange"  resultMap="InfoMap">
+		<!-- select openid , themeId , infoId ,infoContent , publishTime,commentCount,likeInfoCount
+		from  allInfo where themeId=#{param1} and (commentCount+likeinfoCount)=(select max(commentCount+likeinfoCount) from allInfo)
+		union (select openid,themeId,infoId,infoContent,publishTime,commentCount,likeInfoCount from allInfo where themeId=#{param1} order by publishTime desc limit #{param2} , #{param3})
+	  -->
+	  	select openid , themeId , infoId ,infoContent , publishTime,commentCount,likeInfoCount from allInfo where (commentCount+likeinfoCount)=(select max(commentCount+likeinfoCount) from allInfo) and themeId=#{param1} 
+		union
+		(select a.openid , a.themeId , a.infoId ,a.infoContent , a.publishTime,a.commentCount,a.likeInfoCount from allinfo as a
+		where infoId != (select infoid from
+		(select openid , themeId , infoId ,infoContent , publishTime,commentCount,likeInfoCount from allInfo  where (commentCount+likeinfoCount)=(select max(commentCount+likeinfoCount) from allInfo) ) as a
+		) and themeId=#{param1}  order by publishTime desc limit #{param2} , #{param3})
+	  
+	  
 	</select>
+	
 	<!-- type:处理结果最终类型               id：映射结果处理的名字 -->
 	<resultMap type="Info" id="InfoMap">
-	    <id property="infoId" column="infoId"/><!-- 传入的参数 -->
+	    <id property="infoId" column="infoId"/><!-- 传入的参数 --><!-- 下面有一个 infoMap，很多东西不用写，这个id标签没弄懂 -->
+	    <result column="commentCount" property="commentCount"/>
+	    <association property="user" column="openId" select="getUserByOpenid"/>
+		<collection  property="likeinfo"  column="{infoId=infoId}" select="getLikeInfo">
+		</collection>
 	    <collection property="imgs" column="infoId" select="getImgByThemeId"/>
 	</resultMap>
 	
 	<insert id="publishComent" parameterType="Comment">
-		insert into comment(commentId,openId,infoId,commentContent,publishDate) values(nextval("commentId"),#{openId},${infoId},#{commentContent},#{publishDate})
+		insert into comment(commentId,openid,infoId,commentContent,publishDate) values(nextval("commentId"),#{user.openid},${infoId},#{commentContent},#{publishDate})
 	</insert>
 	
 	<insert id="addLikeInfo" parameterType="LikeInfo">
@@ -68,15 +81,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete from LikeInfo where openId=#{openId} and infoId=${infoId}
 	</delete>
 	
-	<select id="getCommentByRange" parameterType="Integer" resultType="Comment">
-		select openId,infoId,commentContent,publishDate from comment where infoId=#{infoId} order by publishDate DESC limit #{start},#{end}  
+	<select id="getCommentByRange" parameterType="Integer" resultMap="commentMap">
+		select openId,infoId,commentContent,publishDate from comment where infoId=#{infoId} order by publishDate limit #{start},#{end}  
 	</select>
+	
+	<resultMap type="Comment" id="commentMap">
+	<!-- 数据库列的字母大小不影响注入java对象，这里面 column大小写无关 -->
+		<result column="infoId" property="infoId"/>
+		<result column="commentContent" property="commentContent"/>
+		<result column="publishDate" property="publishDate"/>
+		<association property="user" column="openId" select="getUserByOpenid"/>
+	</resultMap>
 	
 	<!-- 要换resultMap , 吧likeInfo的值全部查进去 -->
 	<select id="getInfoByRange" parameterType="Integer" resultMap="infoMap">
-		select openid , themeId , infoId ,infoContent , publishTime,commentCount,likeInfoCount
+		<!-- select openid , themeId , infoId ,infoContent , publishTime,commentCount,likeInfoCount
 		from  allInfo where (commentCount+likeinfoCount)=(select max(commentCount+likeinfoCount) from allInfo)
-		union select openid,themeId,infoId,infoContent,publishTime,commentCount,likeInfoCount from allInfo
+		union (select openid,themeId,infoId,infoContent,publishTime,commentCount,likeInfoCount from allInfo order by publishTime desc limit #{param1} , #{param2}) -->
+	select openid , themeId , infoId ,infoContent , publishTime,commentCount,likeInfoCount from allInfo where (commentCount+likeinfoCount)=(select max(commentCount+likeinfoCount) from allInfo) 
+	union
+	(select a.openid , a.themeId , a.infoId ,a.infoContent , a.publishTime,a.commentCount,a.likeInfoCount from allinfo as a
+	where infoId != (select infoid from
+	(select openid , themeId , infoId ,infoContent , publishTime,commentCount,likeInfoCount from allInfo  where (commentCount+likeinfoCount)=(select max(commentCount+likeinfoCount) from allInfo) ) as a
+	)  order by publishTime desc limit #{param1} , #{param2})
+	
 	</select>
 	
 	<resultMap type="Info" id="infoMap">

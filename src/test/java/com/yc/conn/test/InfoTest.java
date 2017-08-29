@@ -12,6 +12,8 @@ import org.springframework.test.context.ContextConfiguration;
 import com.l.wbb.bean.Comment;
 import com.l.wbb.bean.Info;
 import com.l.wbb.bean.LikeInfo;
+import com.l.wbb.bean.User;
+import com.l.wbb.mapper.InfoMapper;
 import com.l.wbb.service.InfoService;
 
 //@RunWith(SpringJUnit4ClassRunner.class)
@@ -19,19 +21,24 @@ import com.l.wbb.service.InfoService;
 public class InfoTest {
 	@Autowired
 	private InfoService infoService;
+	@Autowired
+	private InfoMapper infoMapper;
 	@Test
 	public void getInfobyRange(){
 		ApplicationContext cxt=new ClassPathXmlApplicationContext("spring.xml");
 		infoService=(InfoService) cxt.getBean("infoService");
-		List<Info> infos = infoService.getInfoByRange(0, 10);
-		System.out.println(infos);
+		infoMapper = (InfoMapper) cxt.getBean("infoMapper");
+		System.out.println(infoMapper.getInfoByRange(0,10));
 	}
 	
 	@Test
 	public void TestInfo(){
 		ApplicationContext cxt=new ClassPathXmlApplicationContext("spring.xml");
 		infoService=(InfoService) cxt.getBean("infoService");
-		Comment comment=new Comment("fbjdbfjsbfjsad", 111, "sjdjsnd", new Date(111111111));
+		User user = new User();
+		user.setOpenid("aaaaaa");
+		Comment comment=new Comment(user, 1, "sjdjsnd", new Date());
+		System.out.println(comment);
 		System.out.println(infoService.publishComent(comment));
 	}
 	
@@ -47,10 +54,8 @@ public class InfoTest {
 	public void TestgetCommentByRange(){
 		ApplicationContext cxt=new ClassPathXmlApplicationContext("spring.xml");
 		infoService=(InfoService) cxt.getBean("infoService");
-		List<Comment> comments=infoService.getCommentByRange(111, 1, 10);
-		 Date date=new Date();
+		List<Comment> comments=infoService.getCommentByRange(1, 1, 10);
 		for (Comment comment : comments) {
-			
 			System.out.println(comment);
 		}
 	}

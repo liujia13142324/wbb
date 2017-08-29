@@ -8,6 +8,7 @@ body {
 .tool_div{
 	height:30px;
 	padding-bottom:10px;
+	background: #fff;
 }
 .tool_div span{
 	float:left;
@@ -15,7 +16,11 @@ body {
 	height:30px;
 	line-height:30px;
 }
-select{
+#goodsList form{
+    width: 100%;
+    height: 100%;
+}
+#category{
     -webkit-appearance: none;
     margin-left: 5px;
     appearance: none;
@@ -81,15 +86,16 @@ select{
 .price{
 	color:red;
 }
-.goods_info .tips{
+.goods_info .tipss{
 	color:#999;
 	font-size:12px;
 }
- .tips,.title{
+ .tipss,.title{
 	min-height:28px;
 } 
 .goods_div{
 	margin-top:10px;
+	background:#fff;
 }
 @media screen and (min-width:200px){
 	.search_span{
@@ -169,6 +175,7 @@ select{
 		padding:5px;
 		float:left;
 		margin-left:10px;
+		
 		margin-top:10px;
 	}
 	.goods_div p{

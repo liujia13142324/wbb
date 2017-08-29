@@ -3,6 +3,9 @@ input,textarea{
 	-webkit-appearance: none;
 	border-radius:0px;
 }
+._clear{
+	clear:both;
+}
 .header{
 	background-color:white;
 	width:100%;
@@ -45,6 +48,7 @@ body{
 	float:left;
 	padding:0px;
 	background-color: white;
+	position: relative;
 /* 	border-bottom:1px solid #ddd; */
 }
 
@@ -95,7 +99,7 @@ body{
 }
 .info_body{
 	    padding-left: 10px;
-	    min-height: 100px;
+	    min-height: 50px;
 	    clear: both;
 	    width:100%;
 }
@@ -169,6 +173,7 @@ body{
 }
 .onlyImg{
 	max-height:200px;
+	    width: auto;
 }
 @media screen and (min-width:760px){
 	  .imgList .imgs , .img_div{
