@@ -15,6 +15,8 @@ import net.sf.json.JSONObject;
 public class WbbUtil {
 		public static final String APPID="wxdd4ef504b3fae2dc";
 		public static final String APPSECRET="xiongtingfang433127199307177214x";
+		
+		
 		public static JSONObject doGetJson(String url) throws ClientProtocolException, IOException{
 			JSONObject jsonObject=null;
 			DefaultHttpClient client=new DefaultHttpClient();

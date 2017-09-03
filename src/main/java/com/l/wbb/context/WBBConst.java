@@ -7,4 +7,6 @@ public class WBBConst {
 	public final static String UPLOADPATH="upload_wbb";
 	
 	public final static String WORKIMGPATH="D:/gitWork/wbb/src/main/webapp/upload_wbb";
+
+	public static final String DOMAIN = "baodaidai.cn";
 }
