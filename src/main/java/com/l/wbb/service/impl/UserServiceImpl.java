@@ -41,13 +41,7 @@ public class UserServiceImpl implements UserService{
 			 "openid":"OPENID",    
 			 "scope":"SCOPE" } 
 		*/
-		JSONObject jsonObject=null;
-		try {
-			jsonObject = WbbUtil.doGetJson(accesstokenRequest);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		JSONObject jsonObject= getResponseJson(accesstokenRequest);
 			
 		String openid=jsonObject.getString("openid");
 		String accesstoken=jsonObject.getString("access_token");
@@ -103,30 +97,31 @@ public class UserServiceImpl implements UserService{
 			}
 		}
 	}
-	
+	private String access_token_url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+Wechat.getAppid()+"&secret="+Wechat.getSecret();
+
 	@Override
 	public Wechat initJs() {
 		Wechat we = new Wechat();
 		we.setNonceStr("balabalabalabiubiubiu");
-		we.setTimestamp(new Date().getTime());
+		we.setTimestamp(new Date().getTime()/1000);
 		we.setUrl("http://www."+WBBConst.DOMAIN+"/wbb/page/test.jsp");
-		//String access_token = getAccessToken().getString("access_token");
-		String access_token = "_ygShsSPX3zCNPPDOPb_akQi-Vj0GX0HsHQA5hb6hH8KzXi_6HcnJmYOG5nA3IanvLT4Ab-HQkCc98Wr5-kF24kFwUnGSi5f6vxa6-fgS9pnY_UQ-bpDu7QMFJbOH9xhARAiAHAGXG";
+		String access_token = getResponseJson(access_token_url).getString("access_token");
 		String jsapi_ticket = getJsApiTicket(access_token).getString("ticket");
-		String string = jsapi_ticket+"&noncestr="+we.getNonceStr()
+		String string = "jsapi_ticket="+jsapi_ticket+"&noncestr="+we.getNonceStr()
 						+"&timestamp="+we.getTimestamp()+"&url="+we.getUrl();
 		we.setSignature(Encrypt.sha1(string));
+		we.setAccess_token(access_token);	
+		we.setApi_ticket(jsapi_ticket);
+		we.setString(string);
 		return we;
 	}
 
-	private String access_token_url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+Wechat.getAppid()+"&secret="+Wechat.getSecret();
 	
-	public JSONObject getAccessToken() {
+	public JSONObject getResponseJson(String url) {
 		JSONObject jsonObject=null;
 		try {
-			jsonObject = WbbUtil.doGetJson(access_token_url);
+			jsonObject = WbbUtil.doGetJson(url);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return jsonObject;
@@ -134,13 +129,6 @@ public class UserServiceImpl implements UserService{
 	
 	public JSONObject getJsApiTicket(String access_token) {
 		String 	jsapi_ticketUrl ="https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token="+access_token+"&type=jsapi";
-		JSONObject jsonObject=null;
-		try {
-			jsonObject = WbbUtil.doGetJson(jsapi_ticketUrl);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return jsonObject;
+		return getResponseJson(jsapi_ticketUrl);
 	}
 }
